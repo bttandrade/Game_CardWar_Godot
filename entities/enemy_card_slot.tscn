@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://rjs38tbsvmq8"]
+
+[ext_resource type="Texture2D" uid="uid://ciyd6eksefu17" path="res://assets/slot.png" id="2_gpded"]
+
+[node name="EnemyCardSlot" type="Node2D" unique_id=1020057922]
+z_index = -1
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1220781295]
+texture = ExtResource("2_gpded")
