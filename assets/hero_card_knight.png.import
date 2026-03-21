@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://btpflj65gljvm"
-path="res://.godot/imported/card_human_archer.png-056d3345fd8c03199ed56a0b84e0e22e.ctex"
+uid="uid://c2unax0amg55t"
+path="res://.godot/imported/hero_card_knight.png-dffe783f2c64056d9c8b2a34cecdbf7c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/card_human_archer.png"
-dest_files=["res://.godot/imported/card_human_archer.png-056d3345fd8c03199ed56a0b84e0e22e.ctex"]
+source_file="res://assets/hero_card_knight.png"
+dest_files=["res://.godot/imported/hero_card_knight.png-dffe783f2c64056d9c8b2a34cecdbf7c.ctex"]
 
 [params]
 

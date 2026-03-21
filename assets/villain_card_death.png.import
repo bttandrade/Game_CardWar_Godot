@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ciyd6eksefu17"
-path="res://.godot/imported/slot.png-da0c405054554ee52404d29ec6487048.ctex"
+uid="uid://e6ecnt5at755"
+path="res://.godot/imported/villain_card_death.png-695ababda5dade3acc430e6441d96c9f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/slot.png"
-dest_files=["res://.godot/imported/slot.png-da0c405054554ee52404d29ec6487048.ctex"]
+source_file="res://assets/villain_card_death.png"
+dest_files=["res://.godot/imported/villain_card_death.png-695ababda5dade3acc430e6441d96c9f.ctex"]
 
 [params]
 

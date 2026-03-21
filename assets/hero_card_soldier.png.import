@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cjmv784o4nr73"
-path="res://.godot/imported/value_3.png-6f6d383533c4e78a45e86f89e98323df.ctex"
+uid="uid://da7h38aery8k"
+path="res://.godot/imported/hero_card_soldier.png-7c3dfd572d56710390b12b5554914594.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/value_3.png"
-dest_files=["res://.godot/imported/value_3.png-6f6d383533c4e78a45e86f89e98323df.ctex"]
+source_file="res://assets/hero_card_soldier.png"
+dest_files=["res://.godot/imported/hero_card_soldier.png-7c3dfd572d56710390b12b5554914594.ctex"]
 
 [params]
 

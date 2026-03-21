@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dh7g8ctotfcck"
-path="res://.godot/imported/card_human_tornado.png-9d9fc43bab0a65584730acb9c51b9a55.ctex"
+uid="uid://dfwac0kc368e5"
+path="res://.godot/imported/villain_card_spell1.png-20e3c5be9bd29f2c06104bfe9d2fe872.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/card_human_tornado.png"
-dest_files=["res://.godot/imported/card_human_tornado.png-9d9fc43bab0a65584730acb9c51b9a55.ctex"]
+source_file="res://assets/villain_card_spell1.png"
+dest_files=["res://.godot/imported/villain_card_spell1.png-20e3c5be9bd29f2c06104bfe9d2fe872.ctex"]
 
 [params]
 

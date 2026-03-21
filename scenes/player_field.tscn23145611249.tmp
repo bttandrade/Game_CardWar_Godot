@@ -1,0 +1,112 @@
+[gd_scene format=3 uid="uid://cybif6cwvi8cu"]
+
+[ext_resource type="Script" uid="uid://bon2fqscvj6ib" path="res://scripts/card_manager.gd" id="1_erhd2"]
+[ext_resource type="Script" uid="uid://dv3qvixsxi15k" path="res://scenes/game_set_up.gd" id="1_xhjue"]
+[ext_resource type="Script" uid="uid://dn8iwlwoclrnj" path="res://scripts/player_hand.gd" id="2_xhjue"]
+[ext_resource type="Script" uid="uid://cwetulvaiv31w" path="res://scripts/player_deck.gd" id="3_rpubd"]
+[ext_resource type="Texture2D" uid="uid://x2m3qmmsqcln" path="res://assets/card_human_back.png" id="4_alpbj"]
+[ext_resource type="Script" uid="uid://bgywb8rmhmodi" path="res://scripts/input_manager.gd" id="5_pfs4d"]
+[ext_resource type="PackedScene" uid="uid://cuc1ghl78n6uu" path="res://entities/player_card_slot.tscn" id="6_oexhy"]
+[ext_resource type="Script" uid="uid://c3dk33wwx2lfp" path="res://scripts/magic_slot.gd" id="7_8nv6h"]
+[ext_resource type="Script" uid="uid://dx807dow6kvft" path="res://scripts/battle_manager.gd" id="8_rj0vc"]
+[ext_resource type="Texture2D" uid="uid://ciyd6eksefu17" path="res://assets/slot.png" id="9_mnxhu"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_75cap"]
+size = Vector2(26, 32)
+
+[node name="PlayerField" type="Node2D" unique_id=1272774185]
+script = ExtResource("1_xhjue")
+
+[node name="CardManager" type="Node2D" parent="." unique_id=1992872012]
+script = ExtResource("1_erhd2")
+
+[node name="PlayerHand" type="Node2D" parent="." unique_id=474687142]
+script = ExtResource("2_xhjue")
+
+[node name="PlayerDeck" type="Node2D" parent="." unique_id=1555957335]
+position = Vector2(20, 157)
+script = ExtResource("3_rpubd")
+
+[node name="Sprite2D" type="Sprite2D" parent="PlayerDeck" unique_id=1802905846]
+texture = ExtResource("4_alpbj")
+
+[node name="Area2D" type="Area2D" parent="PlayerDeck" unique_id=1421257961]
+collision_layer = 4
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDeck/Area2D" unique_id=1702067411]
+visible = false
+shape = SubResource("RectangleShape2D_75cap")
+
+[node name="Label" type="Label" parent="PlayerDeck" unique_id=80201667]
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+offset_bottom = 16.0
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="InputManager" type="Node2D" parent="." unique_id=817663293]
+script = ExtResource("5_pfs4d")
+
+[node name="CardsSlots" type="Node2D" parent="." unique_id=890684928]
+position = Vector2(1.9073486e-06, 3.8146973e-06)
+scale = Vector2(0.8, 0.8)
+
+[node name="CardSlot" parent="CardsSlots" unique_id=1020057922 instance=ExtResource("6_oexhy")]
+position = Vector2(180, 169.99998)
+script = ExtResource("7_8nv6h")
+
+[node name="CardSlot2" parent="CardsSlots" unique_id=509580962 instance=ExtResource("6_oexhy")]
+position = Vector2(140, 169.99998)
+script = ExtResource("7_8nv6h")
+
+[node name="CardSlot3" parent="CardsSlots" unique_id=476211361 instance=ExtResource("6_oexhy")]
+position = Vector2(220, 169.99998)
+script = ExtResource("7_8nv6h")
+
+[node name="CardSlot4" parent="CardsSlots" unique_id=1165529848 instance=ExtResource("6_oexhy")]
+position = Vector2(260, 169.99998)
+script = ExtResource("7_8nv6h")
+
+[node name="CardSlot5" parent="CardsSlots" unique_id=744829386 instance=ExtResource("6_oexhy")]
+position = Vector2(180, 129.99998)
+
+[node name="CardSlot6" parent="CardsSlots" unique_id=769377889 instance=ExtResource("6_oexhy")]
+position = Vector2(140, 129.99998)
+
+[node name="CardSlot7" parent="CardsSlots" unique_id=2068146176 instance=ExtResource("6_oexhy")]
+position = Vector2(219.99998, 129.99998)
+
+[node name="CardSlot8" parent="CardsSlots" unique_id=1757726300 instance=ExtResource("6_oexhy")]
+position = Vector2(260, 129.99998)
+
+[node name="EndTurnButton" type="Button" parent="." unique_id=1527003138]
+visible = false
+offset_left = 47.999996
+offset_top = 87.99999
+offset_right = 83.0
+offset_bottom = 104.99999
+scale = Vector2(0.7, 0.7)
+theme_override_font_sizes/font_size = 6
+disabled = true
+text = "End Turn"
+
+[node name="BattleManager" type="Node" parent="." unique_id=477331230]
+script = ExtResource("8_rj0vc")
+
+[node name="PlayerHealth" type="Label" parent="." unique_id=1899066696]
+offset_left = 16.0
+offset_top = 120.00001
+offset_right = 35.0
+offset_bottom = 143.0
+scale = Vector2(0.6, 0.6)
+text = "10"
+
+[node name="PlayerDiscard" type="Node2D" parent="." unique_id=1415851888]
+position = Vector2(256, 128)
+
+[node name="Sprite2D" type="Sprite2D" parent="PlayerDiscard" unique_id=1485883249]
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("9_mnxhu")
