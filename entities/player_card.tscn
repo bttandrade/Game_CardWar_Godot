@@ -1,12 +1,11 @@
 [gd_scene format=3 uid="uid://bcwvek6vlgxli"]
 
 [ext_resource type="Script" uid="uid://bgfb3ha1ocjfi" path="res://scripts/player_card.gd" id="1_i73jc"]
-[ext_resource type="Texture2D" uid="uid://x2m3qmmsqcln" path="res://assets/card_human_back.png" id="2_v7bys"]
-[ext_resource type="Texture2D" uid="uid://dg3obuubm8akf" path="res://assets/card_human_soldier.png" id="3_eceg4"]
-[ext_resource type="Texture2D" uid="uid://isfy7nfcr4nm" path="res://assets/value_2.png" id="4_p4v37"]
+[ext_resource type="Texture2D" uid="uid://cg2ehxklkdsc3" path="res://assets/hero_card_back.png" id="2_335gg"]
+[ext_resource type="Texture2D" uid="uid://da7h38aery8k" path="res://assets/hero_card_soldier.png" id="3_335gg"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rjlel"]
-size = Vector2(26, 34)
+size = Vector2(104, 132)
 
 [sub_resource type="Animation" id="Animation_yhc7h"]
 length = 0.001
@@ -120,39 +119,37 @@ _data = {
 
 [node name="PlayerCard" type="Node2D" unique_id=1711994839]
 script = ExtResource("1_i73jc")
+metadata/_edit_vertical_guides_ = [-56.0]
 
 [node name="Sprite2D2" type="Sprite2D" parent="." unique_id=224940189]
 visible = false
 scale = Vector2(0.1, 1)
-texture = ExtResource("2_v7bys")
+texture = ExtResource("2_335gg")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=461534487]
 z_index = 1
 scale = Vector2(0.1, 1)
-texture = ExtResource("3_eceg4")
+texture = ExtResource("3_335gg")
 
 [node name="Control" type="Control" parent="Sprite2D" unique_id=342583594]
 layout_mode = 3
 anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
 
 [node name="Attack" type="Sprite2D" parent="Sprite2D/Control" unique_id=2145987298]
-position = Vector2(-10.5, -13)
-texture = ExtResource("4_p4v37")
+position = Vector2(-38, -48)
 
 [node name="Health" type="Sprite2D" parent="Sprite2D/Control" unique_id=1121417239]
-position = Vector2(10.5, -13)
-texture = ExtResource("4_p4v37")
+position = Vector2(38, -48)
 
 [node name="Label" type="Label" parent="Sprite2D/Control" unique_id=1428278633]
 layout_mode = 0
-offset_left = -10.0
-offset_top = 4.0
-offset_right = 12.0
-offset_bottom = 27.0
+offset_left = -42.0
+offset_top = 18.0
+offset_right = 42.0
+offset_bottom = 56.0
 theme_override_constants/line_spacing = -1
-theme_override_font_sizes/font_size = 2
+theme_override_font_sizes/font_size = 9
+text = "Exemplo de um efeito escrito aqui"
 autowrap_mode = 2
 
 [node name="Area2D" type="Area2D" parent="." unique_id=535909184]

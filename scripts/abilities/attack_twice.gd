@@ -4,7 +4,7 @@ const ABILITY_TRIGGER_EVENT = "after_attack"
 
 var already_activated = false
 
-func trigger_ability(battle_manager_reference, input_manager_reference, this_card, trigger_event):
+func trigger_ability(battle_manager_reference, _input_manager_reference, this_card, trigger_event):
 	if ABILITY_TRIGGER_EVENT != trigger_event:
 		return
 	
