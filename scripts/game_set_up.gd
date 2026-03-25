@@ -1,5 +1,4 @@
 extends Node2D
-
 const STARTING_HEALTH = 10
 
 func host_set_up():
@@ -8,14 +7,14 @@ func host_set_up():
 	$BattleManager.player_health = STARTING_HEALTH
 	$BattleManager.enemy_health = STARTING_HEALTH
 	
-	get_parent().get_node("EnemyField/EnemyDeck").deck_size = 12
-	get_parent().get_node("EnemyField/EnemyDeck/Label").text = "12"
+	var deck_size = $PlayerDeck.player_deck.size()
+	get_parent().get_node("EnemyField/EnemyDeck").deck_size = deck_size
+	get_parent().get_node("EnemyField/EnemyDeck/Label").text = str(deck_size)
 	
 	await $PlayerDeck.draw_initial_hand()
 	
 	$EndTurnButton.visible = true
 	$EndTurnButton.disabled = false
-	
 	$InputManager.input_disabled = false
 
 func client_set_up():
@@ -24,7 +23,8 @@ func client_set_up():
 	$BattleManager.player_health = STARTING_HEALTH
 	$BattleManager.enemy_health = STARTING_HEALTH
 	
-	get_parent().get_node("EnemyField/EnemyDeck").deck_size = 12
-	get_parent().get_node("EnemyField/EnemyDeck/Label").text = "12"
+	var deck_size = $PlayerDeck.player_deck.size()
+	get_parent().get_node("EnemyField/EnemyDeck").deck_size = deck_size
+	get_parent().get_node("EnemyField/EnemyDeck/Label").text = str(deck_size)
 	
 	$PlayerDeck.draw_initial_hand()

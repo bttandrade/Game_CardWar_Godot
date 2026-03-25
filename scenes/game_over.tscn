@@ -1,0 +1,47 @@
+[gd_scene format=3 uid="uid://c45bhr85v8vqv"]
+
+[ext_resource type="Script" uid="uid://db8dj01bobgs8" path="res://scripts/game_over.gd" id="1_xeevv"]
+
+[node name="GameOver" type="Control" unique_id=1344642786]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_xeevv")
+
+[node name="MessageLabel" type="Label" parent="." unique_id=295218593]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -124.5
+offset_top = -44.0
+offset_right = 124.5
+offset_bottom = 44.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 64
+text = "VITORIA"
+
+[node name="LobbyBtn" type="Button" parent="." unique_id=976800541]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = 56.0
+offset_top = 80.0
+offset_right = 126.0
+offset_bottom = 111.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "VOLTAR"
+
+[connection signal="pressed" from="LobbyBtn" to="." method="_on_lobby_btn_pressed"]

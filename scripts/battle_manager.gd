@@ -28,6 +28,8 @@ func direct_damage_here_and_for_client(player_id, damage):
 	else:
 		player_health = max(0, player_health - damage)
 		$"../PlayerHealth".text = str(player_health)
+	
+	check_game_over()
 
 func _on_end_turn_button_pressed() -> void:
 	can_attack = true
@@ -179,6 +181,8 @@ func attack_player_here_and_for_client(player_id, attacking_card_name):
 		player_health = max(0, player_health - attacking_card.attack)
 		$"../PlayerHealth".text = str(player_health)
 	
+	check_game_over()
+	
 	var tween2 = get_tree().create_tween()
 	tween2.tween_property(attacking_card, "position", attacking_card.card_is_in_slot.global_position, CARD_MOVE_SPEED)
 	
@@ -255,3 +259,29 @@ func enable_end_turn_btn(is_enable):
 	else:
 		$"../EndTurnButton".disabled = true
 		$"../EndTurnButton".visible = false
+
+func check_game_over():
+	if player_health <= 0:
+		await show_game_over(false)
+	elif enemy_health <= 0:
+		await show_game_over(true)
+
+func show_game_over(player_won: bool):
+	await get_tree().create_timer(1.0).timeout
+	$"../InputManager".input_disabled = true
+	enable_end_turn_btn(false)
+	
+	var player_id = multiplayer.get_unique_id()
+	rpc("show_game_over_here_and_for_client", player_id, player_won)
+	show_game_over_here_and_for_client(player_id, player_won)
+
+@rpc("any_peer")
+func show_game_over_here_and_for_client(player_id, player_won: bool):
+	var won
+	if multiplayer.get_unique_id() == player_id:
+		won = player_won
+	else:
+		won = !player_won
+	
+	get_tree().set_meta("player_won", won)
+	get_tree().change_scene_to_file("res://scenes/game_over.tscn")
