@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ck3rxmgq40wu1"
-path="res://.godot/imported/hero_card_duelist.png-60cac727d2d06c3da75cd41de6513e98.ctex"
+uid="uid://da7h38aery8k"
+path="res://.godot/imported/card_hero_soldier.png-0e14cdb873968deb386eb3aef1f5bf40.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/hero_card_duelist.png"
-dest_files=["res://.godot/imported/hero_card_duelist.png-60cac727d2d06c3da75cd41de6513e98.ctex"]
+source_file="res://assets/card_hero_soldier.png"
+dest_files=["res://.godot/imported/card_hero_soldier.png-0e14cdb873968deb386eb3aef1f5bf40.ctex"]
 
 [params]
 

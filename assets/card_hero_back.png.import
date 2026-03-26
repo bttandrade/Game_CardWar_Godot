@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://e6ecnt5at755"
-path="res://.godot/imported/villain_card_death.png-695ababda5dade3acc430e6441d96c9f.ctex"
+uid="uid://cg2ehxklkdsc3"
+path="res://.godot/imported/card_hero_back.png-6726288f59ba3ed6fc67347e0671579e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/villain_card_death.png"
-dest_files=["res://.godot/imported/villain_card_death.png-695ababda5dade3acc430e6441d96c9f.ctex"]
+source_file="res://assets/card_hero_back.png"
+dest_files=["res://.godot/imported/card_hero_back.png-6726288f59ba3ed6fc67347e0671579e.ctex"]
 
 [params]
 

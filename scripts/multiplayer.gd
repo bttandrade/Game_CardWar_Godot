@@ -12,9 +12,7 @@ func _on_host_btn_pressed() -> void:
 	disable_btns()
 	
 	peer.create_server(PORT)
-	
 	multiplayer.multiplayer_peer = peer
-	
 	multiplayer.peer_connected.connect(_on_peer_connected)
 	
 	var player_scene = player_field_scene.instantiate()
@@ -29,14 +27,12 @@ func disable_btns():
 func _on_peer_connected(_peer_id):
 	var enemy_scene = enemy_field_scene.instantiate()
 	add_child(enemy_scene)
-	
 	get_node("PlayerField").host_set_up()
 
 func _on_join_btn_pressed() -> void:
 	disable_btns()
 	
 	peer.create_client(SERVER_ADRESS, PORT)
-	
 	multiplayer.multiplayer_peer = peer
 	
 	var player_scene = player_field_scene.instantiate()

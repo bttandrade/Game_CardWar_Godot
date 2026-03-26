@@ -4,11 +4,13 @@ const CARD_SCENE_PATH = preload("res://entities/enemy_card.tscn")
 const CARD_DRAW_SPEED = 0.2
 const STARTING_HAND_SIZE = 4
 
+var player_deck_reference
 var card_database_reference
 var deck_size
 
 func _ready() -> void:
 	card_database_reference = preload("res://scripts/card_database.gd")
+	player_deck_reference = get_parent().get_parent().get_node("PlayerField/PlayerDeck")
 
 func draw_card(card_drawn_name):
 	if deck_size - 1 == 0:
@@ -29,7 +31,10 @@ func draw_card(card_drawn_name):
 	new_card.attack = card_database_reference.CARDS[card_drawn_name][0]
 	new_card.health = card_database_reference.CARDS[card_drawn_name][1]
 	
-	new_card.get_node("Sprite2D").texture = load("res://assets/hero_card_" + card_texture + ".png")
+	if player_deck_reference.chosen_deck == player_deck_reference.villain_deck:
+		new_card.get_node("Sprite2D2").texture =  load("res://assets/card_villain_back.png")
+	
+	new_card.get_node("Sprite2D").texture = load("res://assets/card_" + card_texture + ".png")
 	new_card.card_type = card_database_reference.CARDS[card_drawn_name][2]
 	if new_card.card_type == "unit":
 		new_card.get_node("Sprite2D/Control/Attack").texture = load("res://assets/value_" + attack_value + ".png")

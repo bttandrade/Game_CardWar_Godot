@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dfwac0kc368e5"
-path="res://.godot/imported/villain_card_spell1.png-20e3c5be9bd29f2c06104bfe9d2fe872.ctex"
+uid="uid://df5qpn1fybum"
+path="res://.godot/imported/card_villain_demon.png-8af132971f72071f2ad3b74622f93060.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/villain_card_spell1.png"
-dest_files=["res://.godot/imported/villain_card_spell1.png-20e3c5be9bd29f2c06104bfe9d2fe872.ctex"]
+source_file="res://assets/card_villain_demon.png"
+dest_files=["res://.godot/imported/card_villain_demon.png-8af132971f72071f2ad3b74622f93060.ctex"]
 
 [params]
 

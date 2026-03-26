@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://den7ceu6jvhoj"
-path="res://.godot/imported/villain_card_soldier.png-55dd6f2c37c58b243057da8c7f6fcd0e.ctex"
+uid="uid://4nf8k1npxkh2"
+path="res://.godot/imported/card_villain_pyro.png-064a6d229540fd5c097e0978f468fc16.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/villain_card_soldier.png"
-dest_files=["res://.godot/imported/villain_card_soldier.png-55dd6f2c37c58b243057da8c7f6fcd0e.ctex"]
+source_file="res://assets/card_villain_pyro.png"
+dest_files=["res://.godot/imported/card_villain_pyro.png-064a6d229540fd5c097e0978f468fc16.ctex"]
 
 [params]
 

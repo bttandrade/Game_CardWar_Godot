@@ -1,4 +1,5 @@
 extends Node2D
+
 const STARTING_HEALTH = 10
 
 func host_set_up():
@@ -7,7 +8,11 @@ func host_set_up():
 	$BattleManager.player_health = STARTING_HEALTH
 	$BattleManager.enemy_health = STARTING_HEALTH
 	
-	var deck_size = $PlayerDeck.player_deck.size()
+	var deck_size = $PlayerDeck.chosen_deck.size()
+	if $PlayerDeck.chosen_deck == $PlayerDeck.villain_deck:
+		get_parent().get_node("EnemyField/EnemyDeck/Sprite2D").texture =  load("res://assets/card_villain_back.png")
+		get_parent().get_node("PlayerField/PlayerDeck/Sprite2D").texture =  load("res://assets/card_villain_back.png")
+	get_parent().get_node("PlayerField/PlayerDeck").visible = true
 	get_parent().get_node("EnemyField/EnemyDeck").deck_size = deck_size
 	get_parent().get_node("EnemyField/EnemyDeck/Label").text = str(deck_size)
 	
@@ -23,7 +28,11 @@ func client_set_up():
 	$BattleManager.player_health = STARTING_HEALTH
 	$BattleManager.enemy_health = STARTING_HEALTH
 	
-	var deck_size = $PlayerDeck.player_deck.size()
+	var deck_size = $PlayerDeck.chosen_deck.size()
+	if $PlayerDeck.chosen_deck == $PlayerDeck.villain_deck:
+		get_parent().get_node("EnemyField/EnemyDeck/Sprite2D").texture =  load("res://assets/card_villain_back.png")
+		get_parent().get_node("PlayerField/PlayerDeck/Sprite2D").texture =  load("res://assets/card_villain_back.png")
+	get_parent().get_node("PlayerField/PlayerDeck").visible = true
 	get_parent().get_node("EnemyField/EnemyDeck").deck_size = deck_size
 	get_parent().get_node("EnemyField/EnemyDeck/Label").text = str(deck_size)
 	

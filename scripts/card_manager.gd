@@ -4,7 +4,7 @@ const COLLISION_MASK_CARD = 1
 const COLLISION_MASK_SLOT = 2
 const DEFAULT_CARD_MOVE_SPEED = 0.2
 const DEFAULT_CARD_SCALE = 1
-const DEFAULT_CARD_BIGGER_SCALE = 1.05
+const DEFAULT_CARD_BIGGER_SCALE = 1.2
 const DEFAULT_CARD_IN_SLOT_SCALE = 0.8
 
 var screen_size
@@ -106,14 +106,13 @@ func play_card_here_and_for_client(player_id, card_name, card_slot_name):
 		card.get_node("AnimationPlayer").play("card_flip")
 		$"../BattleManager".enemy_cards_on_field.append(card)
 		
-		# Exibe o texto da habilidade se existir
 		var label = card.get_node_or_null("Sprite2D/Control/Label")
 		if label:
 			if not label.text.is_empty():
 				label.visible = true
 			else:
 				label.visible = false
-		
+	card.rotation_degrees = 0
 	card.scale = Vector2(DEFAULT_CARD_IN_SLOT_SCALE, DEFAULT_CARD_IN_SLOT_SCALE)
 	card.z_index = -1
 	card.card_is_in_slot = card_slot
@@ -159,10 +158,10 @@ func connect_card_signals(card):
 func on_hovered_over_card(card):
 	if card_being_dragged:
 		return
-	
+	if card.card_is_in_slot:
+		return
 	if hovered_card and hovered_card != card:
 		highlight_card(hovered_card, false)
-
 	hovered_card = card
 	highlight_card(card, true)
 
@@ -180,6 +179,8 @@ func on_hovered_off_card(card):
 			on_hovered_over_card(new_card_hovered)
 
 func highlight_card(card, hovered):
+	if card.card_is_in_slot:
+		return
 	if hovered:
 		card.scale = Vector2(DEFAULT_CARD_BIGGER_SCALE, DEFAULT_CARD_BIGGER_SCALE)
 		card.z_index = 2

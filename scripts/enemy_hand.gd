@@ -1,8 +1,10 @@
 extends Node2D
- 
+
 const CARD_WIDTH = 110
 const HAND_Y_POSITION = 0
 const DEFAULT_CARD_MOVE_SPEED = 0.2
+const MAX_ROTATION_DEGREES = 8.0
+const Y_CURVE_STRENGTH = 4
 
 var enemy_hand = []
 var center_screen_x
@@ -18,15 +20,26 @@ func add_card_to_hand(card, speed):
 		animate_card_to_position(card, card.card_hand_position, DEFAULT_CARD_MOVE_SPEED)
 
 func update_hand_position(speed):
-	for i in range(enemy_hand.size()):
-		var new_position = Vector2(calculate_card_position(i), HAND_Y_POSITION)
+	var count = enemy_hand.size()
+	for i in range(count):
+		var center_index = (count - 1) / 2.0
+		var offset = i - center_index
+
+		var x = calculate_card_position(i)
+		var y = HAND_Y_POSITION + (count * 3) - offset * offset * Y_CURVE_STRENGTH
+		var rotation_deg = -offset * (MAX_ROTATION_DEGREES / max(center_index, 1))
+
 		var card = enemy_hand[i]
-		card.card_hand_position = new_position
-		animate_card_to_position(card, new_position, speed)
+		card.card_hand_position = Vector2(x, y)
+		animate_card_to_position(card, Vector2(x, y), speed)
+
+		var tween = get_tree().create_tween()
+		tween.tween_property(card, "rotation_degrees", rotation_deg, speed)
 
 func calculate_card_position(index):
-	var total_width = (enemy_hand.size() - 1) * CARD_WIDTH
-	var x_offset = center_screen_x - index * CARD_WIDTH + total_width / 2.0
+	var dynamic_width = max(40, CARD_WIDTH - (enemy_hand.size() * 6))
+	var total_width = (enemy_hand.size() - 1) * dynamic_width
+	var x_offset = center_screen_x + index * dynamic_width - total_width / 2.0
 	return x_offset
 
 func animate_card_to_position(card, new_position, speed):

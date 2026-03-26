@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://dj53sa2sx7ih8"]
 
 [ext_resource type="Script" uid="uid://cb6cy76roq4jv" path="res://scripts/enemy_card.gd" id="1_8ncpx"]
-[ext_resource type="Texture2D" uid="uid://cg2ehxklkdsc3" path="res://assets/hero_card_back.png" id="2_henqj"]
-[ext_resource type="Texture2D" uid="uid://da7h38aery8k" path="res://assets/hero_card_soldier.png" id="3_henqj"]
+[ext_resource type="Texture2D" uid="uid://cg2ehxklkdsc3" path="res://assets/card_hero_back.png" id="2_henqj"]
+[ext_resource type="Texture2D" uid="uid://da7h38aery8k" path="res://assets/card_hero_soldier.png" id="3_henqj"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8ncpx"]
 size = Vector2(104, 132)

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dlapk2nmg4mnw"
-path="res://.godot/imported/villain_card_trident.png-b875d3e78987704be3a2f746c14a4959.ctex"
+uid="uid://den7ceu6jvhoj"
+path="res://.godot/imported/card_villain_soldier.png-33a3b979c7eaab749ddb24375dde9524.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/villain_card_trident.png"
-dest_files=["res://.godot/imported/villain_card_trident.png-b875d3e78987704be3a2f746c14a4959.ctex"]
+source_file="res://assets/card_villain_soldier.png"
+dest_files=["res://.godot/imported/card_villain_soldier.png-33a3b979c7eaab749ddb24375dde9524.ctex"]
 
 [params]
 

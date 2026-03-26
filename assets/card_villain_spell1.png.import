@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bkyxves4s3k5b"
-path="res://.godot/imported/hero_card_archer.png-a1d778c040742b0e8d7a61c955950e91.ctex"
+uid="uid://dfwac0kc368e5"
+path="res://.godot/imported/card_villain_spell1.png-7f59717b546fdf3a399cecde87a18bb4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/hero_card_archer.png"
-dest_files=["res://.godot/imported/hero_card_archer.png-a1d778c040742b0e8d7a61c955950e91.ctex"]
+source_file="res://assets/card_villain_spell1.png"
+dest_files=["res://.godot/imported/card_villain_spell1.png-7f59717b546fdf3a399cecde87a18bb4.ctex"]
 
 [params]
 

@@ -5,7 +5,7 @@
 [ext_resource type="Script" uid="uid://dn8iwlwoclrnj" path="res://scripts/player_hand.gd" id="2_xhjue"]
 [ext_resource type="Script" uid="uid://cwetulvaiv31w" path="res://scripts/player_deck.gd" id="3_rpubd"]
 [ext_resource type="Script" uid="uid://bgywb8rmhmodi" path="res://scripts/input_manager.gd" id="5_pfs4d"]
-[ext_resource type="Texture2D" uid="uid://cg2ehxklkdsc3" path="res://assets/hero_card_back.png" id="5_xhjue"]
+[ext_resource type="Texture2D" uid="uid://cg2ehxklkdsc3" path="res://assets/card_hero_back.png" id="5_xhjue"]
 [ext_resource type="PackedScene" uid="uid://cuc1ghl78n6uu" path="res://entities/player_card_slot.tscn" id="6_oexhy"]
 [ext_resource type="Script" uid="uid://c3dk33wwx2lfp" path="res://scripts/magic_slot.gd" id="7_8nv6h"]
 [ext_resource type="Script" uid="uid://dx807dow6kvft" path="res://scripts/battle_manager.gd" id="8_rj0vc"]
@@ -25,6 +25,7 @@ script = ExtResource("1_erhd2")
 script = ExtResource("2_xhjue")
 
 [node name="PlayerDeck" type="Node2D" parent="." unique_id=1555957335]
+visible = false
 position = Vector2(80, 624)
 script = ExtResource("3_rpubd")
 
@@ -44,7 +45,7 @@ offset_top = -24.0
 offset_right = 16.0
 offset_bottom = 21.0
 theme_override_font_sizes/font_size = 32
-text = "0"
+text = "8"
 horizontal_alignment = 1
 vertical_alignment = 1
 
