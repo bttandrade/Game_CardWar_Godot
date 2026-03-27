@@ -5,6 +5,9 @@ const CARD_MOVE_SPEED = 0.2
 const DEFAULT_HEALTH = 10
 const BATTLE_POS_OFFSET = 10
 
+signal spell_target_selected(card)
+
+var waiting_for_spell_target = false
 var enemy_cards_on_field = []
 var player_cards_on_field = []
 var player_health
@@ -45,9 +48,10 @@ func _on_end_turn_button_pressed() -> void:
 @rpc("any_peer")
 func change_turn():
 	can_attack = true
+	$"../InputManager".input_disabled = true
+	await $"../PlayerDeck".reset_draw()
 	enable_end_turn_btn(true)
 	$"../InputManager".input_disabled = false
-	$"../PlayerDeck".reset_draw()
 
 func attack_card(attacking_card, defending_card):
 	if !can_attack:
@@ -206,17 +210,17 @@ func destroy_magic_card_here_and_for_client(player_id, card_name):
 		card = enemy_field.get_node("CardManager/" + card_name)
 		destroy_card(card, "enemy")
 
-func spell1_damage(cards_on_field):
+func rain_of_arrows(cards_on_field):
 	var player_id = multiplayer.get_unique_id()
 	var card_names = []
 	for card in cards_on_field:
 		card_names.append(str(card.name))
-	spell1_damage_here_and_for_client(player_id, card_names)
-	rpc("spell1_damage_here_and_for_client", player_id, card_names)
+	rain_of_arrows_here_and_for_client(player_id, card_names)
+	rpc("rain_of_arrows_here_and_for_client", player_id, card_names)
 	await timer(1.0)
 
 @rpc("any_peer")
-func spell1_damage_here_and_for_client(player_id, card_names):
+func rain_of_arrows_here_and_for_client(player_id, card_names):
 	var cards_to_destroy = []
 	var card_manager
 	
@@ -242,8 +246,96 @@ func spell1_damage_here_and_for_client(player_id, card_names):
 		else:
 			destroy_card(card, "player")
 
+func decay(cards_on_field):
+	var player_id = multiplayer.get_unique_id()
+	var card_names = []
+	for card in cards_on_field:
+		card_names.append(str(card.name))
+	decay_here_and_for_client(player_id, card_names)
+	rpc("decay_here_and_for_client", player_id, card_names)
+	await timer(1.0)
+
+@rpc("any_peer")
+func decay_here_and_for_client(player_id, card_names):
+	var card_manager
+	
+	if multiplayer.get_unique_id() == player_id:
+		card_manager = get_parent().get_parent().get_node("EnemyField/CardManager")
+	else:
+		card_manager = $"../CardManager"
+	
+	for card_name in card_names:
+		var card = card_manager.get_node(card_name)
+		if card.card_type != "unit":
+			continue
+		card.attack = max(0, card.attack - 1)
+		card.get_node("Sprite2D/Control/Attack").texture = load("res://assets/value_" + str(card.attack) + ".png")
+
+func hellfire(target_card):
+	var player_id = multiplayer.get_unique_id()
+	var target_name = str(target_card.name)
+	hellfire_here_and_for_client(player_id, target_name)
+	rpc("hellfire_here_and_for_client", player_id, target_name)
+	await timer(1.0)
+
+@rpc("any_peer")
+func hellfire_here_and_for_client(player_id, target_card_name):
+	var card_manager
+	var cards_on_field
+	
+	if multiplayer.get_unique_id() == player_id:
+		card_manager = get_parent().get_parent().get_node("EnemyField/CardManager")
+		cards_on_field = enemy_cards_on_field
+	else:
+		card_manager = $"../CardManager"
+		cards_on_field = player_cards_on_field
+	
+	var target = card_manager.get_node(target_card_name)
+	var target_index = cards_on_field.find(target)
+	
+	target.health = max(0, target.health - 2)
+	target.get_node("Sprite2D/Control/Health").texture = load("res://assets/value_" + str(target.health) + ".png")
+	
+	if target_index - 1 >= 0:
+		var left_card = cards_on_field[target_index - 1]
+		left_card.health = max(0, left_card.health - 1)
+		left_card.get_node("Sprite2D/Control/Health").texture = load("res://assets/value_" + str(left_card.health) + ".png")
+	
+	if target_index + 1 < cards_on_field.size():
+		var right_card = cards_on_field[target_index + 1]
+		right_card.health = max(0, right_card.health - 1)
+		right_card.get_node("Sprite2D/Control/Health").texture = load("res://assets/value_" + str(right_card.health) + ".png")
+	
+	await timer(1.0)
+	
+	var cards_to_destroy = []
+	if target.health == 0:
+		cards_to_destroy.append([target, player_id])
+	if target_index - 1 >= 0:
+		var left_card = cards_on_field[target_index - 1]
+		if left_card.health == 0:
+			cards_to_destroy.append([left_card, player_id])
+	if target_index + 1 < cards_on_field.size():
+		var right_card = cards_on_field[target_index + 1]
+		if right_card.health == 0:
+			cards_to_destroy.append([right_card, player_id])
+	
+	for entry in cards_to_destroy:
+		var card = entry[0]
+		var pid = entry[1]
+		if multiplayer.get_unique_id() == pid:
+			destroy_card(card, "enemy")
+		else:
+			destroy_card(card, "player")
+
 func enemy_card_selected(defending_card):
 	var attacking_card = $"../CardManager".selected_monster
+	
+	if waiting_for_spell_target:
+		if defending_card in enemy_cards_on_field:
+			emit_signal("spell_target_selected", defending_card)
+		return
+	
 	if attacking_card:
 		if defending_card in enemy_cards_on_field:
 			$"../CardManager".selected_monster = null

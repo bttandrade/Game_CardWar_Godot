@@ -1,0 +1,31 @@
+extends Node
+
+const ABILITY_TRIGGER_EVENT = "card_placed"
+
+func trigger_ability(battle_manager_reference, input_manager_reference, this_card, trigger_event):
+	if ABILITY_TRIGGER_EVENT != trigger_event:
+		return
+	
+	input_manager_reference.input_disabled = true
+	battle_manager_reference.enable_end_turn_btn(false)
+	
+	await battle_manager_reference.timer(1.0)
+	
+	if battle_manager_reference.enemy_cards_on_field.size() == 0:
+		battle_manager_reference.destroy_magic_card(this_card)
+		input_manager_reference.input_disabled = false
+		battle_manager_reference.enable_end_turn_btn(true)
+		return
+	
+	battle_manager_reference.waiting_for_spell_target = true
+	input_manager_reference.input_disabled = false
+	var target = await battle_manager_reference.spell_target_selected
+	input_manager_reference.input_disabled = true
+	battle_manager_reference.waiting_for_spell_target = false
+	
+	await battle_manager_reference.hellfire(target)
+	
+	battle_manager_reference.destroy_magic_card(this_card)
+	
+	input_manager_reference.input_disabled = false
+	battle_manager_reference.enable_end_turn_btn(true)

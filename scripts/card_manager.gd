@@ -67,18 +67,19 @@ func finish_drag():
 	var card_slot_found = raycast_check_for_slot()
 	if card_slot_found and not card_slot_found.card_in_slot:
 		if card_being_dragged.card_type == card_slot_found.card_slot_type:
-			
-			var player_id = multiplayer.get_unique_id()
-			
-			play_card_here_and_for_client(player_id, str(card_being_dragged.name), str(card_slot_found.name))
-			rpc("play_card_here_and_for_client", player_id, str(card_being_dragged.name), str(card_slot_found.name))
-	
-			if card_being_dragged.card_type == "unit":
-				$"../BattleManager".player_cards_on_field.append(card_being_dragged)
-			if card_being_dragged.ability_script:
-				card_being_dragged.ability_script.trigger_ability($"../BattleManager", $"../InputManager", card_being_dragged, "card_placed")
-			card_being_dragged = null
-			return
+			if not card_slot_found.is_ancestor_of(card_being_dragged) and card_slot_found.get_parent() == $"../CardsSlots":
+				
+				var player_id = multiplayer.get_unique_id()
+				
+				play_card_here_and_for_client(player_id, str(card_being_dragged.name), str(card_slot_found.name))
+				rpc("play_card_here_and_for_client", player_id, str(card_being_dragged.name), str(card_slot_found.name))
+		
+				if card_being_dragged.card_type == "unit":
+					$"../BattleManager".player_cards_on_field.append(card_being_dragged)
+				if card_being_dragged.ability_script:
+					card_being_dragged.ability_script.trigger_ability($"../BattleManager", $"../InputManager", card_being_dragged, "card_placed")
+				card_being_dragged = null
+				return
 	player_hand_reference.add_card_to_hand(card_being_dragged, DEFAULT_CARD_MOVE_SPEED)
 	card_being_dragged = null
 
@@ -160,6 +161,8 @@ func on_hovered_over_card(card):
 		return
 	if card.card_is_in_slot:
 		return
+	if card not in $"../PlayerHand".player_hand:
+		return
 	if hovered_card and hovered_card != card:
 		highlight_card(hovered_card, false)
 	hovered_card = card
@@ -175,7 +178,7 @@ func on_hovered_off_card(card):
 			hovered_card = null
 
 		var new_card_hovered = raycast_check_for_card()
-		if new_card_hovered:
+		if new_card_hovered and new_card_hovered in $"../PlayerHand".player_hand:
 			on_hovered_over_card(new_card_hovered)
 
 func highlight_card(card, hovered):

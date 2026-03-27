@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://do5ejp1d0wqhi"
-path="res://.godot/imported/card_hero_spell1.png-82fca7d3e3928334944d214d9e03b7ce.ctex"
+uid="uid://bobcuneqyoos8"
+path="res://.godot/imported/card_hero_balista_shot.png-8109f6baadf55c9c3a502274df12c89f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/card_hero_spell1.png"
-dest_files=["res://.godot/imported/card_hero_spell1.png-82fca7d3e3928334944d214d9e03b7ce.ctex"]
+source_file="res://assets/card_hero_balista_shot.png"
+dest_files=["res://.godot/imported/card_hero_balista_shot.png-8109f6baadf55c9c3a502274df12c89f.ctex"]
 
 [params]
 

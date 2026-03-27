@@ -4,14 +4,13 @@ const CARD_SCENE_PATH = preload("res://entities/player_card.tscn")
 const CARD_DRAW_SPEED = 0.2
 const STARTING_HAND_SIZE = 4
 
-var hero_deck = ["hero_soldier", "hero_archer", "hero_duelist", "hero_mage", "hero_knight", "hero_spear", "hero_spell1", "hero_spell2"]
-var villain_deck = ["villain_soldier", "villain_archer", "villain_death", "villain_trident", "villain_demon", "villain_pyro", "villain_spell1", "villain_spell2"]
+var hero_deck = ["hero_soldier", "hero_archer", "hero_duelist", "hero_mage", "hero_knight", "hero_spear", "hero_rain_of_arrows", "hero_balista_shot"]
+var villain_deck = ["villain_soldier", "villain_archer", "villain_death", "villain_trident", "villain_demon", "villain_pyro", "villain_decay", "villain_hellfire"]
 var chosen_deck = []
 var card_database_reference
-var drawn_card_this_turn = false
 
 func _ready() -> void:
-	chosen_deck = hero_deck
+	chosen_deck = villain_deck
 	chosen_deck.shuffle()
 	card_database_reference = preload("res://scripts/card_database.gd")
 
@@ -24,9 +23,7 @@ func draw_initial_hand():
 		
 		draw_here_and_for_client(player_id, card_drawn_name)
 		rpc("draw_here_and_for_client", player_id, card_drawn_name)
-		drawn_card_this_turn = false
 		await get_tree().create_timer(0.1).timeout
-	drawn_card_this_turn = true
 
 @rpc("any_peer")
 func draw_here_and_for_client(player_id, card_drawn_name):
@@ -35,18 +32,7 @@ func draw_here_and_for_client(player_id, card_drawn_name):
 	else:
 		get_parent().get_parent().get_node("EnemyField/EnemyDeck").draw_card(card_drawn_name)
 
-func deck_clicked():
-	if drawn_card_this_turn:
-		return
-	var player_id = multiplayer.get_unique_id()
-	var card_drawn_name = chosen_deck[0]
-	
-	draw_here_and_for_client(player_id, card_drawn_name)
-	rpc("draw_here_and_for_client", player_id, card_drawn_name)
-
 func draw_card(card_drawn_name):
-	drawn_card_this_turn = true
-	
 	chosen_deck.erase(card_drawn_name)
 	
 	if chosen_deck.size() == 0:
@@ -85,4 +71,9 @@ func draw_card(card_drawn_name):
 	new_card.get_node("AnimationPlayer").play("card_flip")
 
 func reset_draw():
-	drawn_card_this_turn = false
+	if chosen_deck.size() > 0:
+		var player_id = multiplayer.get_unique_id()
+		var card_drawn_name = chosen_deck[0]
+		draw_here_and_for_client(player_id, card_drawn_name)
+		rpc("draw_here_and_for_client", player_id, card_drawn_name)
+		await get_tree().create_timer(CARD_DRAW_SPEED + 0.1).timeout

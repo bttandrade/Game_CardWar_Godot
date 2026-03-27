@@ -4,16 +4,13 @@ signal left_mouse_button_clicked
 signal left_mouse_button_released
 
 const COLLISION_MASK_CARD = 1
-const COLLISION_MASK_DECK = 4
 const COLLISION_MASK_ENEMY_CARD = 8
 
 var card_manager_reference
-var deck_reference
 var input_disabled = true
 
 func _ready() -> void:
 	card_manager_reference = $"../CardManager"
-	deck_reference = $"../PlayerDeck"
 
 func _input(event):
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
@@ -38,7 +35,5 @@ func raycast_at_cursor():
 			var card_found = result[0].collider.get_parent()
 			if card_found:
 				card_manager_reference.card_clicked(card_found)
-		elif result_collision_mask == COLLISION_MASK_DECK:
-			deck_reference.deck_clicked()
 		elif result_collision_mask == COLLISION_MASK_ENEMY_CARD:
 			$"../BattleManager".enemy_card_selected(result[0].collider.get_parent())

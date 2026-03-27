@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c6416rn3qoixg"
-path="res://.godot/imported/card_villain_spell2.png-f74ce7414f4afb3111b199661fa0acb1.ctex"
+uid="uid://do5ejp1d0wqhi"
+path="res://.godot/imported/card_hero_rain_of_arrows.png-76c1bb1656c7a2512b4de096758734da.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/card_villain_spell2.png"
-dest_files=["res://.godot/imported/card_villain_spell2.png-f74ce7414f4afb3111b199661fa0acb1.ctex"]
+source_file="res://assets/card_hero_rain_of_arrows.png"
+dest_files=["res://.godot/imported/card_hero_rain_of_arrows.png-76c1bb1656c7a2512b4de096758734da.ctex"]
 
 [params]
 
