@@ -59,6 +59,7 @@ func draw_card(card_drawn_name):
 		new_card.get_node("Sprite2D/Control/Attack").visible = false
 		new_card.get_node("Sprite2D/Control/Health").visible = false
 	new_card.get_node("Sprite2D/Control/Label").text = card_database_reference.CARDS[card_drawn_name][3]
+	new_card.cost = card_database_reference.CARDS[card_drawn_name][5]
 	var new_card_ability_script_path = card_database_reference.CARDS[card_drawn_name][4]
 	if new_card_ability_script_path:
 		new_card.ability_script = load(new_card_ability_script_path).new()

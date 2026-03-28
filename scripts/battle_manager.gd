@@ -49,9 +49,21 @@ func _on_end_turn_button_pressed() -> void:
 func change_turn():
 	can_attack = true
 	$"../InputManager".input_disabled = true
+	
+	var energy_bar = $"../EnergyBar"
+	energy_bar.on_turn_start()
+	
+	var player_id = multiplayer.get_unique_id()
+	rpc("sync_enemy_energy", player_id, energy_bar.current_energy, energy_bar.max_energy_this_turn)
+	
 	await $"../PlayerDeck".reset_draw()
 	enable_end_turn_btn(true)
 	$"../InputManager".input_disabled = false
+
+@rpc("any_peer")
+func sync_enemy_energy(player_id, current, maximum):
+	if multiplayer.get_unique_id() != player_id:
+		get_parent().get_parent().get_node("EnemyField/EnergyBar").set_energy(current, maximum)
 
 func attack_card(attacking_card, defending_card):
 	if !can_attack:

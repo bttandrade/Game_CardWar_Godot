@@ -10,6 +10,7 @@
 [ext_resource type="Script" uid="uid://c3dk33wwx2lfp" path="res://scripts/magic_slot.gd" id="7_8nv6h"]
 [ext_resource type="Script" uid="uid://dx807dow6kvft" path="res://scripts/battle_manager.gd" id="8_rj0vc"]
 [ext_resource type="Texture2D" uid="uid://gnqumj6hivbh" path="res://assets/card_slot.png" id="10_xhjue"]
+[ext_resource type="PackedScene" uid="uid://ce33nhrtqqhe4" path="res://entities/energy_bar.tscn" id="11_rpubd"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_75cap"]
 size = Vector2(104, 132)
@@ -118,5 +119,8 @@ position = Vector2(1040, 552)
 [node name="Sprite2D" type="Sprite2D" parent="PlayerDiscard" unique_id=1485883249]
 scale = Vector2(0.8, 0.8)
 texture = ExtResource("10_xhjue")
+
+[node name="EnergyBar" parent="." unique_id=1189802039 instance=ExtResource("11_rpubd")]
+position = Vector2(79, 431)
 
 [connection signal="pressed" from="EndTurnButton" to="BattleManager" method="_on_end_turn_button_pressed"]

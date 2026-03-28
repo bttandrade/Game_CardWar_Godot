@@ -67,10 +67,14 @@ func finish_drag():
 	var card_slot_found = raycast_check_for_slot()
 	if card_slot_found and not card_slot_found.card_in_slot:
 		if card_being_dragged.card_type == card_slot_found.card_slot_type:
-			if not card_slot_found.is_ancestor_of(card_being_dragged) and card_slot_found.get_parent() == $"../CardsSlots":
+			if card_slot_found.get_parent() == $"../CardsSlots":
+				
+				if not $"../EnergyBar".spend_energy(card_being_dragged.cost):
+					player_hand_reference.add_card_to_hand(card_being_dragged, DEFAULT_CARD_MOVE_SPEED)
+					card_being_dragged = null
+					return
 				
 				var player_id = multiplayer.get_unique_id()
-				
 				play_card_here_and_for_client(player_id, str(card_being_dragged.name), str(card_slot_found.name))
 				rpc("play_card_here_and_for_client", player_id, str(card_being_dragged.name), str(card_slot_found.name))
 		

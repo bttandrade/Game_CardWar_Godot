@@ -9,6 +9,7 @@ var card_type
 var health
 var attack
 var ability_script
+var cost = 1
 
 func _on_area_2d_mouse_entered() -> void:
 	emit_signal("hovered_over", self)
