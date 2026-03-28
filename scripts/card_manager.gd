@@ -172,7 +172,6 @@ func on_hovered_off_card(card):
 	if !card.card_is_in_slot:
 		if card_being_dragged:
 			return
-
 		if hovered_card == card:
 			highlight_card(card, false)
 			hovered_card = null
@@ -183,6 +182,8 @@ func on_hovered_off_card(card):
 
 func highlight_card(card, hovered):
 	if card.card_is_in_slot:
+		return
+	if card not in $"../PlayerHand".player_hand:
 		return
 	if hovered:
 		card.scale = Vector2(DEFAULT_CARD_BIGGER_SCALE, DEFAULT_CARD_BIGGER_SCALE)

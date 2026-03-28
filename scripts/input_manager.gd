@@ -30,10 +30,13 @@ func raycast_at_cursor():
 	var result = space_state.intersect_point(parameters)
 	
 	if result.size() > 0:
-		var result_collision_mask = result[0].collider.collision_mask
-		if result_collision_mask == COLLISION_MASK_CARD:
-			var card_found = result[0].collider.get_parent()
-			if card_found:
-				card_manager_reference.card_clicked(card_found)
-		elif result_collision_mask == COLLISION_MASK_ENEMY_CARD:
-			$"../BattleManager".enemy_card_selected(result[0].collider.get_parent())
+		for hit in result:
+			var mask = hit.collider.collision_mask
+			if mask == COLLISION_MASK_CARD:
+				var card_found = hit.collider.get_parent()
+				if card_found:
+					card_manager_reference.card_clicked(card_found)
+				return
+			elif mask == COLLISION_MASK_ENEMY_CARD:
+				$"../BattleManager".enemy_card_selected(hit.collider.get_parent())
+				return

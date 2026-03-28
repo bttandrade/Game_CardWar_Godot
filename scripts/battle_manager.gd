@@ -291,48 +291,65 @@ func hellfire_here_and_for_client(player_id, target_card_name):
 		cards_on_field = player_cards_on_field
 	
 	var target = card_manager.get_node(target_card_name)
-	var target_index = cards_on_field.find(target)
+	
+	var left_card = null
+	var right_card = null
+	var closest_left_dist = INF
+	var closest_right_dist = INF
+	
+	for card in cards_on_field:
+		if card == target:
+			continue
+		var diff = card.position.x - target.position.x
+		if diff < 0 and abs(diff) < closest_left_dist:
+			closest_left_dist = abs(diff)
+			left_card = card
+		elif diff > 0 and abs(diff) < closest_right_dist:
+			closest_right_dist = abs(diff)
+			right_card = card
+	
+	if closest_left_dist > 200:
+		left_card = null
+	if closest_right_dist > 200:
+		right_card = null
 	
 	target.health = max(0, target.health - 2)
 	target.get_node("Sprite2D/Control/Health").texture = load("res://assets/value_" + str(target.health) + ".png")
 	
-	if target_index - 1 >= 0:
-		var left_card = cards_on_field[target_index - 1]
+	if left_card:
 		left_card.health = max(0, left_card.health - 1)
 		left_card.get_node("Sprite2D/Control/Health").texture = load("res://assets/value_" + str(left_card.health) + ".png")
 	
-	if target_index + 1 < cards_on_field.size():
-		var right_card = cards_on_field[target_index + 1]
+	if right_card:
 		right_card.health = max(0, right_card.health - 1)
 		right_card.get_node("Sprite2D/Control/Health").texture = load("res://assets/value_" + str(right_card.health) + ".png")
 	
 	await timer(1.0)
 	
-	var cards_to_destroy = []
 	if target.health == 0:
-		cards_to_destroy.append([target, player_id])
-	if target_index - 1 >= 0:
-		var left_card = cards_on_field[target_index - 1]
-		if left_card.health == 0:
-			cards_to_destroy.append([left_card, player_id])
-	if target_index + 1 < cards_on_field.size():
-		var right_card = cards_on_field[target_index + 1]
-		if right_card.health == 0:
-			cards_to_destroy.append([right_card, player_id])
-	
-	for entry in cards_to_destroy:
-		var card = entry[0]
-		var pid = entry[1]
-		if multiplayer.get_unique_id() == pid:
-			destroy_card(card, "enemy")
+		if multiplayer.get_unique_id() == player_id:
+			destroy_card(target, "enemy")
 		else:
-			destroy_card(card, "player")
+			destroy_card(target, "player")
+	
+	if left_card and left_card.health == 0:
+		if multiplayer.get_unique_id() == player_id:
+			destroy_card(left_card, "enemy")
+		else:
+			destroy_card(left_card, "player")
+	
+	if right_card and right_card.health == 0:
+		if multiplayer.get_unique_id() == player_id:
+			destroy_card(right_card, "enemy")
+		else:
+			destroy_card(right_card, "player")
 
 func enemy_card_selected(defending_card):
 	var attacking_card = $"../CardManager".selected_monster
 	
 	if waiting_for_spell_target:
 		if defending_card in enemy_cards_on_field:
+			waiting_for_spell_target = false
 			emit_signal("spell_target_selected", defending_card)
 		return
 	
