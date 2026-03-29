@@ -1,0 +1,50 @@
+[gd_scene format=3 uid="uid://b755t2gkkjn2u"]
+
+[ext_resource type="Texture2D" uid="uid://cg2ehxklkdsc3" path="res://assets/card_hero_back.png" id="1_7tu5d"]
+[ext_resource type="Script" uid="uid://cjwqtnu0ojgg7" path="res://scripts/deck_selection.gd" id="1_37nm2"]
+[ext_resource type="Texture2D" uid="uid://dhvy76g1uy1ev" path="res://assets/card_villain_back.png" id="2_37nm2"]
+[ext_resource type="Script" uid="uid://d307hhyydbmlu" path="res://scripts/hero_deck_sprite.gd" id="2_xc7bc"]
+[ext_resource type="Script" uid="uid://bj0j8k0v7jscc" path="res://scripts/villain_deck_sprite.gd" id="4_uuj07"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xc7bc"]
+size = Vector2(104, 132)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_uuj07"]
+size = Vector2(104, 132)
+
+[node name="DeckSelection" type="Node2D" unique_id=750804981]
+script = ExtResource("1_37nm2")
+
+[node name="HeroDeckSprite" type="Area2D" parent="." unique_id=1830936717]
+position = Vector2(497, 303)
+script = ExtResource("2_xc7bc")
+
+[node name="Sprite2D" type="Sprite2D" parent="HeroDeckSprite" unique_id=507882177]
+texture = ExtResource("1_7tu5d")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HeroDeckSprite" unique_id=215664105]
+shape = SubResource("RectangleShape2D_xc7bc")
+
+[node name="VillainDeckSprite" type="Area2D" parent="." unique_id=1400015407]
+position = Vector2(834, 299)
+script = ExtResource("4_uuj07")
+
+[node name="Sprite2D" type="Sprite2D" parent="VillainDeckSprite" unique_id=456102353]
+texture = ExtResource("2_37nm2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="VillainDeckSprite" unique_id=1845496084]
+shape = SubResource("RectangleShape2D_uuj07")
+
+[node name="WaitingLabel" type="Label" parent="." unique_id=1671249183]
+offset_left = 381.0
+offset_top = 429.0
+offset_right = 421.0
+offset_bottom = 452.0
+theme_override_font_sizes/font_size = 32
+
+[node name="EnemyDeckLabel" type="Label" parent="." unique_id=71947858]
+offset_left = 798.0
+offset_top = 425.0
+offset_right = 838.0
+offset_bottom = 448.0
+theme_override_font_sizes/font_size = 32

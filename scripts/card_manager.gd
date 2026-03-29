@@ -4,7 +4,7 @@ const COLLISION_MASK_CARD = 1
 const COLLISION_MASK_SLOT = 2
 const DEFAULT_CARD_MOVE_SPEED = 0.2
 const DEFAULT_CARD_SCALE = 1
-const DEFAULT_CARD_BIGGER_SCALE = 1.2
+const DEFAULT_CARD_BIGGER_SCALE = 1.05
 const DEFAULT_CARD_IN_SLOT_SCALE = 0.8
 
 var screen_size
@@ -30,13 +30,10 @@ func start_drag(card):
 
 func card_clicked(card):
 	if card.card_is_in_slot:
-	
 		if card in $"../BattleManager".player_cards_that_attacked_this_turn:
 			return
-		
 		if card.card_type != "unit":
 			return
-		
 		if $"../BattleManager".enemy_cards_on_field.size() == 0:
 			$"../BattleManager".attack_player(card)
 		else:
@@ -49,10 +46,8 @@ func select_card_for_battle(card):
 		card.position.y += 6
 		selected_monster = null
 		return
-	
 	if selected_monster != null:
 		selected_monster.position.y += 6
-	
 	selected_monster = card
 	card.position.y -= 6
 
@@ -69,12 +64,16 @@ func finish_drag():
 		if card_being_dragged.card_type == card_slot_found.card_slot_type:
 			if card_slot_found.get_parent() == $"../CardsSlots":
 				
-				if not $"../EnergyBar".spend_energy(card_being_dragged.cost):
+				var card_cost = card_being_dragged.cost
+				if not $"../EnergyBar".spend_energy(card_cost):
 					player_hand_reference.add_card_to_hand(card_being_dragged, DEFAULT_CARD_MOVE_SPEED)
 					card_being_dragged = null
 					return
 				
+				var energy_bar = $"../EnergyBar"
 				var player_id = multiplayer.get_unique_id()
+				$"../BattleManager".rpc("sync_enemy_energy", player_id, energy_bar.current_energy, energy_bar.max_energy_this_turn)
+				
 				play_card_here_and_for_client(player_id, str(card_being_dragged.name), str(card_slot_found.name))
 				rpc("play_card_here_and_for_client", player_id, str(card_being_dragged.name), str(card_slot_found.name))
 		
@@ -95,7 +94,6 @@ func play_card_here_and_for_client(player_id, card_name, card_slot_name):
 	if multiplayer.get_unique_id() == player_id:
 		card = get_node(card_name)
 		card_slot = $"../CardsSlots".get_node(card_slot_name)
-		
 		player_hand_reference.remove_card_from_hand(card_being_dragged)
 		card.global_position = card_slot.global_position
 		card_slot.get_node("Area2D/CollisionShape2D").disabled = true
@@ -117,6 +115,7 @@ func play_card_here_and_for_client(player_id, card_name, card_slot_name):
 				label.visible = true
 			else:
 				label.visible = false
+	
 	card.rotation_degrees = 0
 	card.scale = Vector2(DEFAULT_CARD_IN_SLOT_SCALE, DEFAULT_CARD_IN_SLOT_SCALE)
 	card.z_index = -1
@@ -148,7 +147,6 @@ func raycast_check_for_slot():
 func get_card_with_highest_z_index(cards):
 	var highest_z_card = cards[0].collider.get_parent()
 	var highest_z_index = highest_z_card.z_index
-	
 	for i in range(1, cards.size()):
 		var current_card = cards[i].collider.get_parent()
 		if current_card.z_index > highest_z_index:
@@ -179,7 +177,6 @@ func on_hovered_off_card(card):
 		if hovered_card == card:
 			highlight_card(card, false)
 			hovered_card = null
-
 		var new_card_hovered = raycast_check_for_card()
 		if new_card_hovered and new_card_hovered in $"../PlayerHand".player_hand:
 			on_hovered_over_card(new_card_hovered)

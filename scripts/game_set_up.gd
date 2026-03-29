@@ -10,14 +10,17 @@ func host_set_up():
 	$BattleManager.enemy_health = STARTING_HEALTH
 	
 	var deck_size = $PlayerDeck.chosen_deck.size()
-	if $PlayerDeck.chosen_deck == $PlayerDeck.villain_deck:
-		get_parent().get_node("EnemyField/EnemyDeck/Sprite2D").texture = load("res://assets/card_villain_back.png")
+	
+	if get_tree().get_meta("chosen_deck") == "villain":
 		get_parent().get_node("PlayerField/PlayerDeck").visible = true
 		get_parent().get_node("PlayerField/PlayerDeck/Sprite2D").texture = load("res://assets/card_villain_back.png")
+	
+	if get_tree().get_meta("enemy_deck") == "villain":
+		get_parent().get_node("EnemyField/EnemyDeck/Sprite2D").texture = load("res://assets/card_villain_back.png")
+	
 	get_parent().get_node("EnemyField/EnemyDeck").deck_size = deck_size
 	get_parent().get_node("EnemyField/EnemyDeck/Label").text = str(deck_size)
 	
-	$EnergyBar.connect("energy_spent", _on_energy_spent)
 	$EnergyBar.is_enemy = false
 	$EnergyBar.current_energy = STARTING_ENERGY
 	$EnergyBar.max_energy_this_turn = STARTING_ENERGY
@@ -28,6 +31,8 @@ func host_set_up():
 	enemy_energy.current_energy = STARTING_ENERGY
 	enemy_energy.max_energy_this_turn = STARTING_ENERGY
 	enemy_energy.update_display()
+	
+	$EnergyBar.connect("energy_spent", _on_energy_spent)
 	
 	await $PlayerDeck.draw_initial_hand()
 	
@@ -51,13 +56,16 @@ func client_set_up():
 	$BattleManager.enemy_health = STARTING_HEALTH
 	
 	var deck_size = $PlayerDeck.chosen_deck.size()
-	if $PlayerDeck.chosen_deck == $PlayerDeck.villain_deck:
-		get_parent().get_node("EnemyField/EnemyDeck/Sprite2D").texture = load("res://assets/card_villain_back.png")
+	
+	if get_tree().get_meta("chosen_deck") == "villain":
 		get_parent().get_node("PlayerField/PlayerDeck/Sprite2D").texture = load("res://assets/card_villain_back.png")
+	
+	if get_tree().get_meta("enemy_deck") == "villain":
+		get_parent().get_node("EnemyField/EnemyDeck/Sprite2D").texture = load("res://assets/card_villain_back.png")
+	
 	get_parent().get_node("EnemyField/EnemyDeck").deck_size = deck_size
 	get_parent().get_node("EnemyField/EnemyDeck/Label").text = str(deck_size)
 	
-	$EnergyBar.connect("energy_spent", _on_energy_spent)
 	$EnergyBar.is_enemy = false
 	$EnergyBar.current_energy = STARTING_ENERGY
 	$EnergyBar.max_energy_this_turn = STARTING_ENERGY
@@ -69,8 +77,9 @@ func client_set_up():
 	enemy_energy.max_energy_this_turn = STARTING_ENERGY
 	enemy_energy.update_display()
 	
+	$EnergyBar.connect("energy_spent", _on_energy_spent)
+	
 	$PlayerDeck.draw_initial_hand()
 
 func _on_energy_spent(current, maximum):
 	$BattleManager.rpc("sync_enemy_energy", multiplayer.get_unique_id(), current, maximum)
-	$BattleManager.sync_enemy_energy(multiplayer.get_unique_id(), current, maximum)

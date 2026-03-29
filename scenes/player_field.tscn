@@ -26,7 +26,6 @@ script = ExtResource("1_erhd2")
 script = ExtResource("2_xhjue")
 
 [node name="PlayerDeck" type="Node2D" parent="." unique_id=1555957335]
-visible = false
 position = Vector2(80, 624)
 script = ExtResource("3_rpubd")
 

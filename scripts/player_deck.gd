@@ -10,7 +10,11 @@ var chosen_deck = []
 var card_database_reference
 
 func _ready() -> void:
-	chosen_deck = villain_deck
+	var deck_choice = get_tree().get_meta("chosen_deck")
+	if deck_choice == "hero":
+		chosen_deck = hero_deck.duplicate()
+	else:
+		chosen_deck = villain_deck.duplicate()
 	chosen_deck.shuffle()
 	card_database_reference = preload("res://scripts/card_database.gd")
 
