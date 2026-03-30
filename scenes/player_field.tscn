@@ -5,7 +5,7 @@
 [ext_resource type="Script" uid="uid://dn8iwlwoclrnj" path="res://scripts/player_hand.gd" id="2_xhjue"]
 [ext_resource type="Script" uid="uid://cwetulvaiv31w" path="res://scripts/player_deck.gd" id="3_rpubd"]
 [ext_resource type="Script" uid="uid://bgywb8rmhmodi" path="res://scripts/input_manager.gd" id="5_pfs4d"]
-[ext_resource type="Texture2D" uid="uid://cg2ehxklkdsc3" path="res://assets/card_hero_back.png" id="5_xhjue"]
+[ext_resource type="Texture2D" uid="uid://cj7konh4pq37u" path="res://assets/card_hero_back.png" id="5_xhjue"]
 [ext_resource type="PackedScene" uid="uid://cuc1ghl78n6uu" path="res://entities/player_card_slot.tscn" id="6_oexhy"]
 [ext_resource type="Script" uid="uid://c3dk33wwx2lfp" path="res://scripts/magic_slot.gd" id="7_8nv6h"]
 [ext_resource type="Script" uid="uid://dx807dow6kvft" path="res://scripts/battle_manager.gd" id="8_rj0vc"]

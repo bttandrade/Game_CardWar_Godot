@@ -31,8 +31,8 @@ func draw_card(card_drawn_name):
 	new_card.attack = card_database_reference.CARDS[card_drawn_name][0]
 	new_card.health = card_database_reference.CARDS[card_drawn_name][1]
 	
-	if get_tree().get_meta("enemy_deck") == "villain":
-		new_card.get_node("Sprite2D2").texture = load("res://assets/card_villain_back.png")
+	var enemy_deck_name = get_tree().get_meta("enemy_deck")
+	new_card.get_node("Sprite2D2").texture = load("res://assets/card_" + enemy_deck_name + "_back.png")
 	
 	new_card.get_node("Sprite2D").texture = load("res://assets/card_" + card_texture + ".png")
 	new_card.card_type = card_database_reference.CARDS[card_drawn_name][2]

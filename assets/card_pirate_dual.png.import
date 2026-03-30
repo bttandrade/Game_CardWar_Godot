@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bobcuneqyoos8"
-path="res://.godot/imported/card_hero_balista_shot.png-8109f6baadf55c9c3a502274df12c89f.ctex"
+uid="uid://8i41gcrsm78i"
+path="res://.godot/imported/card_pirate_dual.png-0f6fee147a517d394083a350f9853e37.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/card_hero_balista_shot.png"
-dest_files=["res://.godot/imported/card_hero_balista_shot.png-8109f6baadf55c9c3a502274df12c89f.ctex"]
+source_file="res://assets/card_pirate_dual.png"
+dest_files=["res://.godot/imported/card_pirate_dual.png-0f6fee147a517d394083a350f9853e37.ctex"]
 
 [params]
 

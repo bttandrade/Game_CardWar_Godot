@@ -222,17 +222,17 @@ func destroy_magic_card_here_and_for_client(player_id, card_name):
 		card = enemy_field.get_node("CardManager/" + card_name)
 		destroy_card(card, "enemy")
 
-func rain_of_arrows(cards_on_field):
+func arrows(cards_on_field):
 	var player_id = multiplayer.get_unique_id()
 	var card_names = []
 	for card in cards_on_field:
 		card_names.append(str(card.name))
-	rain_of_arrows_here_and_for_client(player_id, card_names)
-	rpc("rain_of_arrows_here_and_for_client", player_id, card_names)
+	arrows_here_and_for_client(player_id, card_names)
+	rpc("arrows_here_and_for_client", player_id, card_names)
 	await timer(1.0)
 
 @rpc("any_peer")
-func rain_of_arrows_here_and_for_client(player_id, card_names):
+func arrows_here_and_for_client(player_id, card_names):
 	var cards_to_destroy = []
 	var card_manager
 	

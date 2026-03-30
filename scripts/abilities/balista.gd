@@ -1,6 +1,6 @@
 extends Node
 
-const SPELL_DAMAGE = 2
+const BALISTA_DAMAGE = 2
 const ABILITY_TRIGGER_EVENT = "card_placed"
 
 func trigger_ability(battle_manager_reference, input_manager_reference, this_card, trigger_event):
@@ -12,7 +12,7 @@ func trigger_ability(battle_manager_reference, input_manager_reference, this_car
 	
 	await battle_manager_reference.timer(1.0)
 	
-	battle_manager_reference.direct_damage(SPELL_DAMAGE)
+	battle_manager_reference.direct_damage(BALISTA_DAMAGE)
 	
 	await battle_manager_reference.timer(1.0)
 	

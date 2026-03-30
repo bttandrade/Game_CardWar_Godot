@@ -4,8 +4,10 @@ const CARD_SCENE_PATH = preload("res://entities/player_card.tscn")
 const CARD_DRAW_SPEED = 0.2
 const STARTING_HAND_SIZE = 4
 
-var hero_deck = ["hero_soldier", "hero_archer", "hero_duelist", "hero_mage", "hero_knight", "hero_spear", "hero_rain_of_arrows", "hero_balista_shot"]
+var hero_deck = ["hero_soldier", "hero_archer", "hero_duelist", "hero_mage", "hero_knight", "hero_spear", "hero_arrows", "hero_balista"]
 var villain_deck = ["villain_soldier", "villain_archer", "villain_death", "villain_trident", "villain_demon", "villain_pyro", "villain_decay", "villain_hellfire"]
+var pirate_deck = ["pirate_soldier", "pirate_spear", "pirate_pistol", "pirate_dual", "pirate_bomb", "pirate_cannon", "pirate_spell1", "pirate_spell2"]
+var green_deck = ["green_warrior", "green_sword", "green_mace", "green_axe", "green_dual", "green_mage", "green_spell1", "green_spell2"]
 var chosen_deck = []
 var card_database_reference
 
@@ -13,8 +15,12 @@ func _ready() -> void:
 	var deck_choice = get_tree().get_meta("chosen_deck")
 	if deck_choice == "hero":
 		chosen_deck = hero_deck.duplicate()
-	else:
+	elif deck_choice == "villain":
 		chosen_deck = villain_deck.duplicate()
+	elif deck_choice == "pirate":
+		chosen_deck = pirate_deck.duplicate()
+	elif deck_choice == "green":
+		chosen_deck = green_deck.duplicate()
 	chosen_deck.shuffle()
 	card_database_reference = preload("res://scripts/card_database.gd")
 

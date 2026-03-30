@@ -10,13 +10,12 @@ func host_set_up():
 	$BattleManager.enemy_health = STARTING_HEALTH
 	
 	var deck_size = $PlayerDeck.chosen_deck.size()
+	var chosen = get_tree().get_meta("chosen_deck")
+	var enemy = get_tree().get_meta("enemy_deck")
 	
-	if get_tree().get_meta("chosen_deck") == "villain":
-		get_parent().get_node("PlayerField/PlayerDeck").visible = true
-		get_parent().get_node("PlayerField/PlayerDeck/Sprite2D").texture = load("res://assets/card_villain_back.png")
-	
-	if get_tree().get_meta("enemy_deck") == "villain":
-		get_parent().get_node("EnemyField/EnemyDeck/Sprite2D").texture = load("res://assets/card_villain_back.png")
+	get_parent().get_node("PlayerField/PlayerDeck").visible = true
+	get_parent().get_node("PlayerField/PlayerDeck/Sprite2D").texture = load("res://assets/card_" + chosen + "_back.png")
+	get_parent().get_node("EnemyField/EnemyDeck/Sprite2D").texture = load("res://assets/card_" + enemy + "_back.png")
 	
 	get_parent().get_node("EnemyField/EnemyDeck").deck_size = deck_size
 	get_parent().get_node("EnemyField/EnemyDeck/Label").text = str(deck_size)
@@ -56,12 +55,11 @@ func client_set_up():
 	$BattleManager.enemy_health = STARTING_HEALTH
 	
 	var deck_size = $PlayerDeck.chosen_deck.size()
+	var chosen = get_tree().get_meta("chosen_deck")
+	var enemy = get_tree().get_meta("enemy_deck")
 	
-	if get_tree().get_meta("chosen_deck") == "villain":
-		get_parent().get_node("PlayerField/PlayerDeck/Sprite2D").texture = load("res://assets/card_villain_back.png")
-	
-	if get_tree().get_meta("enemy_deck") == "villain":
-		get_parent().get_node("EnemyField/EnemyDeck/Sprite2D").texture = load("res://assets/card_villain_back.png")
+	get_parent().get_node("PlayerField/PlayerDeck/Sprite2D").texture = load("res://assets/card_" + chosen + "_back.png")
+	get_parent().get_node("EnemyField/EnemyDeck/Sprite2D").texture = load("res://assets/card_" + enemy + "_back.png")
 	
 	get_parent().get_node("EnemyField/EnemyDeck").deck_size = deck_size
 	get_parent().get_node("EnemyField/EnemyDeck/Label").text = str(deck_size)
