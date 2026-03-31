@@ -6,7 +6,7 @@ const STARTING_HAND_SIZE = 4
 
 var hero_deck = ["hero_soldier", "hero_archer", "hero_duelist", "hero_mage", "hero_knight", "hero_spear", "hero_arrows", "hero_balista"]
 var villain_deck = ["villain_soldier", "villain_archer", "villain_death", "villain_trident", "villain_demon", "villain_pyro", "villain_decay", "villain_hellfire"]
-var pirate_deck = ["pirate_soldier", "pirate_spear", "pirate_pistol", "pirate_dual", "pirate_bomb", "pirate_cannon", "pirate_spell1", "pirate_spell2"]
+var pirate_deck = ["pirate_soldier", "pirate_spear", "pirate_pistol", "pirate_dual", "pirate_bomb", "pirate_cannon", "pirate_plunder", "pirate_cannonball"]
 var green_deck = ["green_warrior", "green_sword", "green_mace", "green_axe", "green_dual", "green_mage", "green_spell1", "green_spell2"]
 var chosen_deck = []
 var card_database_reference

@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cvsjs4x5o0vqo"
-path="res://.godot/imported/card_pirate_spell1.png-edd985b09a994d03c002febcfd1985e3.ctex"
+path="res://.godot/imported/card_pirate_plunder.png-7bc636936b2ab37dbf687166b66a9327.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/card_pirate_spell1.png"
-dest_files=["res://.godot/imported/card_pirate_spell1.png-edd985b09a994d03c002febcfd1985e3.ctex"]
+source_file="res://assets/card_pirate_plunder.png"
+dest_files=["res://.godot/imported/card_pirate_plunder.png-7bc636936b2ab37dbf687166b66a9327.ctex"]
 
 [params]
 

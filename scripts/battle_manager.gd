@@ -356,6 +356,72 @@ func hellfire_here_and_for_client(player_id, target_card_name):
 		else:
 			destroy_card(right_card, "player")
 
+func cannonball(shots, damage):
+	var player_id = multiplayer.get_unique_id()
+	cannonball_here_and_for_client(player_id, shots, damage)
+	rpc("cannonball_here_and_for_client", player_id, shots, damage)
+	await timer(float(shots) * 0.8)
+
+@rpc("any_peer")
+func cannonball_here_and_for_client(player_id, shots, damage):
+	var cards_on_field
+	if multiplayer.get_unique_id() == player_id:
+		cards_on_field = enemy_cards_on_field.duplicate()
+	else:
+		cards_on_field = player_cards_on_field.duplicate()
+	
+	for i in range(shots):
+		var targets = []
+		for card in cards_on_field:
+			if card.health > 0:
+				targets.append({"type": "card", "ref": card})
+		targets.append({"type": "player"})
+		
+		var target = targets.pick_random()
+		
+		if target.type == "card":
+			var card = target.ref
+			card.health = max(0, card.health - damage)
+			card.get_node("Sprite2D/Control/Health").texture = load("res://assets/value_" + str(card.health) + ".png")
+			
+			if card.health == 0:
+				cards_on_field.erase(card)
+				await timer(0.3)
+				if multiplayer.get_unique_id() == player_id:
+					destroy_card(card, "enemy")
+				else:
+					destroy_card(card, "player")
+		else:
+			if multiplayer.get_unique_id() == player_id:
+				enemy_health = max(0, enemy_health - damage)
+				get_parent().get_parent().get_node("EnemyField/EnemyHealth").text = str(enemy_health)
+			else:
+				player_health = max(0, player_health - damage)
+				$"../PlayerHealth".text = str(player_health)
+			check_game_over()
+		
+		await timer(0.5)
+
+func plunder():
+	var player_id = multiplayer.get_unique_id()
+	plunder_here_and_for_client(player_id)
+	rpc("plunder_here_and_for_client", player_id)
+
+@rpc("any_peer")
+func plunder_here_and_for_client(player_id):
+	if multiplayer.get_unique_id() == player_id:
+		var my_energy = $"../EnergyBar"
+		my_energy.current_energy = min(my_energy.current_energy + 1, my_energy.max_energy_this_turn)
+		my_energy.update_display()
+		
+		rpc("sync_enemy_energy", player_id, my_energy.current_energy, my_energy.max_energy_this_turn)
+	else:
+		var my_energy = $"../EnergyBar"
+		my_energy.current_energy = max(0, my_energy.current_energy - 1)
+		my_energy.update_display()
+		
+		rpc("sync_enemy_energy", multiplayer.get_unique_id(), my_energy.current_energy, my_energy.max_energy_this_turn)
+
 func enemy_card_selected(defending_card):
 	var attacking_card = $"../CardManager".selected_monster
 	
