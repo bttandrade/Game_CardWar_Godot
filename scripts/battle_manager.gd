@@ -422,6 +422,52 @@ func plunder_here_and_for_client(player_id):
 		
 		rpc("sync_enemy_energy", multiplayer.get_unique_id(), my_energy.current_energy, my_energy.max_energy_this_turn)
 
+func warcry():
+	var player_id = multiplayer.get_unique_id()
+	warcry_here_and_for_client(player_id)
+	rpc("warcry_here_and_for_client", player_id)
+
+@rpc("any_peer")
+func warcry_here_and_for_client(player_id):
+	var cards_on_field
+	if multiplayer.get_unique_id() == player_id:
+		cards_on_field = player_cards_on_field
+	else:
+		cards_on_field = enemy_cards_on_field
+	
+	for card in cards_on_field:
+		if card.card_type != "unit":
+			continue
+		card.attack += 1
+		card.get_node("Sprite2D/Control/Attack").texture = load("res://assets/value_" + str(card.attack) + ".png")
+
+func devastation():
+	var player_id = multiplayer.get_unique_id()
+	devastation_here_and_for_client(player_id)
+	rpc("devastation_here_and_for_client", player_id)
+
+@rpc("any_peer")
+func devastation_here_and_for_client(_player_id):
+	var all_cards = []
+	for card in player_cards_on_field:
+		if card.health != null:
+			all_cards.append({"card": card, "owner": "player"})
+	for card in enemy_cards_on_field:
+		if card.health != null:
+			all_cards.append({"card": card, "owner": "enemy"})
+	
+	if all_cards.is_empty():
+		return
+	
+	var min_health = all_cards[0].card.health
+	for entry in all_cards:
+		if entry.card.health < min_health:
+			min_health = entry.card.health
+	
+	for entry in all_cards:
+		if entry.card.health == min_health:
+			destroy_card(entry.card, entry.owner)
+
 func enemy_card_selected(defending_card):
 	var attacking_card = $"../CardManager".selected_monster
 	

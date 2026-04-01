@@ -29,6 +29,6 @@ const CARDS = {
 	"green_axe" : [4, 7, "unit", "*Pode atacar duas vezes", "res://scripts/abilities/attack_twice.gd", 4],
 	"green_dual" : [5, 2, "unit", "Um orc com dois espadões", "", 3],
 	"green_mage" : [5, 2, "unit", "Um goblin bruxo", "", 3],
-	"green_spell1": [null, null, "magic", "", "", 2],
-	"green_spell2": [null, null, "magic", "", "", 3]
+	"green_warcry": [null, null, "magic", "*Todas suas units ganham 1 de atk", "res://scripts/abilities/warcry.gd", 2],
+	"green_devastation": [null, null, "magic", "*Destroi a carta com menor vida em todo campo", "res://scripts/abilities/devastation.gd", 3]
 }

@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bmvjhwe5jvd5b"
-path="res://.godot/imported/card_green_spell1.png-df678d23f82222de3cdd60bb29f63aba.ctex"
+path="res://.godot/imported/card_green_warcry.png-462106a2e2aa0e002414c7a14c590e2e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/card_green_spell1.png"
-dest_files=["res://.godot/imported/card_green_spell1.png-df678d23f82222de3cdd60bb29f63aba.ctex"]
+source_file="res://assets/card_green_warcry.png"
+dest_files=["res://.godot/imported/card_green_warcry.png-462106a2e2aa0e002414c7a14c590e2e.ctex"]
 
 [params]
 
