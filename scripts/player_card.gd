@@ -5,6 +5,8 @@ signal hovered_off
 
 var card_hand_position
 var card_is_in_slot
+var has_death_touch = false
+var has_cannon = false
 var card_type
 var health
 var attack

@@ -4,7 +4,7 @@ const CARD_SCENE_PATH = preload("res://entities/player_card.tscn")
 const CARD_DRAW_SPEED = 0.2
 const STARTING_HAND_SIZE = 4
 
-var hero_deck = ["hero_soldier", "hero_archer", "hero_duelist", "hero_mage", "hero_knight", "hero_spear", "hero_arrows", "hero_balista"]
+var hero_deck = ["hero_soldier", "hero_archer", "hero_duelist", "hero_mage", "hero_knight", "hero_spear", "hero_arrows", "hero_ballista"]
 var villain_deck = ["villain_soldier", "villain_archer", "villain_death", "villain_trident", "villain_demon", "villain_pyro", "villain_decay", "villain_hellfire"]
 var pirate_deck = ["pirate_soldier", "pirate_spear", "pirate_pistol", "pirate_dual", "pirate_bomb", "pirate_cannon", "pirate_plunder", "pirate_cannonball"]
 var green_deck = ["green_warrior", "green_sword", "green_mace", "green_axe", "green_dual", "green_mage", "green_warcry", "green_devastation"]
@@ -73,6 +73,10 @@ func draw_card(card_drawn_name):
 	var new_card_ability_script_path = card_database_reference.CARDS[card_drawn_name][4]
 	if new_card_ability_script_path:
 		new_card.ability_script = load(new_card_ability_script_path).new()
+		if new_card.ability_script.get("has_death_touch"):
+			new_card.has_death_touch = true
+		if new_card.ability_script.get("has_cannon"):
+			new_card.has_cannon = true
 
 	$"../CardManager".add_child(new_card)
 	$"../CardManager".connect_card_signals(new_card)

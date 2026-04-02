@@ -1,6 +1,6 @@
 extends Node
 
-const BALISTA_DAMAGE = 2
+const BALISTA_DAMAGE = 3
 const ABILITY_TRIGGER_EVENT = "card_placed"
 
 func trigger_ability(battle_manager_reference, input_manager_reference, this_card, trigger_event):

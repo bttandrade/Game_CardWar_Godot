@@ -73,8 +73,11 @@ func attack_card(attacking_card, defending_card):
 	player_cards_that_attacked_this_turn.append(attacking_card)
 	
 	var player_id = multiplayer.get_unique_id()
-	attack_card_here_and_for_client(player_id, str(attacking_card.name), str(defending_card.name))
-	rpc("attack_card_here_and_for_client", player_id, str(attacking_card.name), str(defending_card.name))
+	var has_death_touch = attacking_card.get("has_death_touch") == true
+	var has_cannon = attacking_card.get("has_cannon") == true
+	
+	attack_card_here_and_for_client(player_id, str(attacking_card.name), str(defending_card.name), has_death_touch, has_cannon)
+	rpc("attack_card_here_and_for_client", player_id, str(attacking_card.name), str(defending_card.name), has_death_touch, has_cannon)
 	
 	if attacking_card.ability_script:
 		await attacking_card.ability_script.trigger_ability(self, $"../InputManager", attacking_card, "after_attack")
@@ -82,7 +85,7 @@ func attack_card(attacking_card, defending_card):
 	enable_end_turn_btn(true)
 
 @rpc("any_peer")
-func attack_card_here_and_for_client(player_id, attacking_card_name, defending_card_name):
+func attack_card_here_and_for_client(player_id, attacking_card_name, defending_card_name, attacker_has_death_touch, attacker_has_cannon):
 	var attacking_card
 	var defending_card
 	var y_offset
@@ -94,8 +97,8 @@ func attack_card_here_and_for_client(player_id, attacking_card_name, defending_c
 	else:
 		attacking_card = get_parent().get_parent().get_node("EnemyField/CardManager/" + attacking_card_name)
 		defending_card = $"../CardManager".get_node(defending_card_name)
-		y_offset = - BATTLE_POS_OFFSET
-		
+		y_offset = -BATTLE_POS_OFFSET
+	
 	attacking_card.z_index = 5
 	
 	var new_pos = Vector2(defending_card.position.x, defending_card.position.y + y_offset)
@@ -107,29 +110,60 @@ func attack_card_here_and_for_client(player_id, attacking_card_name, defending_c
 	var tween2 = get_tree().create_tween()
 	tween2.tween_property(attacking_card, "position", attacking_card.card_is_in_slot.global_position, CARD_MOVE_SPEED)
 	
-	defending_card.health = max(0, defending_card.health - attacking_card.attack)
-	defending_card.get_node("Sprite2D/Control/Health").texture = load("res://assets/value_" + str(defending_card.health) + ".png")
-	
-	attacking_card.health = max(0, attacking_card.health - defending_card.attack)
-	attacking_card.get_node("Sprite2D/Control/Health").texture = load("res://assets/value_" + str(attacking_card.health) + ".png")
+	if attacker_has_death_touch:
+		defending_card.health = 0
+		defending_card.get_node("Sprite2D/Control/Health").texture = load("res://assets/value_0.png")
+		attacking_card.get_node("Sprite2D/Control/Health").texture = load("res://assets/value_" + str(attacking_card.health) + ".png")
+	elif attacker_has_cannon:
+		var cards_to_hit
+		if multiplayer.get_unique_id() == player_id:
+			cards_to_hit = enemy_cards_on_field.duplicate()
+		else:
+			cards_to_hit = player_cards_on_field.duplicate()
+		for card in cards_to_hit:
+			if card.health == null:
+				continue
+			card.health = max(0, card.health - attacking_card.attack)
+			card.get_node("Sprite2D/Control/Health").texture = load("res://assets/value_" + str(card.health) + ".png")
+		attacking_card.get_node("Sprite2D/Control/Health").texture = load("res://assets/value_" + str(attacking_card.health) + ".png")
+	else:
+		defending_card.health = max(0, defending_card.health - attacking_card.attack)
+		defending_card.get_node("Sprite2D/Control/Health").texture = load("res://assets/value_" + str(defending_card.health) + ".png")
+		attacking_card.health = max(0, attacking_card.health - defending_card.attack)
+		attacking_card.get_node("Sprite2D/Control/Health").texture = load("res://assets/value_" + str(attacking_card.health) + ".png")
 	
 	await timer(1.0)
 	
 	attacking_card.z_index = 0
 	
 	var card_was_destroyed = false
-	if attacking_card.health == 0:
+	
+	if attacker_has_cannon:
+		var cards_to_check
 		if multiplayer.get_unique_id() == player_id:
-			destroy_card(attacking_card, "player")
+			cards_to_check = enemy_cards_on_field.duplicate()
 		else:
-			destroy_card(attacking_card, "enemy")
-		card_was_destroyed = true
-	if defending_card.health == 0:
-		if multiplayer.get_unique_id() == player_id:
-			destroy_card(defending_card, "enemy")
-		else:
-			destroy_card(defending_card, "player")
-		card_was_destroyed = true
+			cards_to_check = player_cards_on_field.duplicate()
+		for card in cards_to_check:
+			if card.health == 0:
+				if multiplayer.get_unique_id() == player_id:
+					destroy_card(card, "enemy")
+				else:
+					destroy_card(card, "player")
+				card_was_destroyed = true
+	else:
+		if attacking_card.health == 0:
+			if multiplayer.get_unique_id() == player_id:
+				destroy_card(attacking_card, "player")
+			else:
+				destroy_card(attacking_card, "enemy")
+			card_was_destroyed = true
+		if defending_card.health == 0:
+			if multiplayer.get_unique_id() == player_id:
+				destroy_card(defending_card, "enemy")
+			else:
+				destroy_card(defending_card, "player")
+			card_was_destroyed = true
 	
 	if card_was_destroyed:
 		await timer(1.0)
@@ -467,6 +501,25 @@ func devastation_here_and_for_client(_player_id):
 	for entry in all_cards:
 		if entry.card.health == min_health:
 			destroy_card(entry.card, entry.owner)
+
+func holy_shield(heal_amount, max_health):
+	var player_id = multiplayer.get_unique_id()
+	holy_shield_here_and_for_client(player_id, heal_amount, max_health)
+	rpc("holy_shield_here_and_for_client", player_id, heal_amount, max_health)
+
+@rpc("any_peer")
+func holy_shield_here_and_for_client(player_id, heal_amount, max_health):
+	var cards_on_field
+	if multiplayer.get_unique_id() == player_id:
+		cards_on_field = player_cards_on_field
+	else:
+		cards_on_field = enemy_cards_on_field
+	
+	for card in cards_on_field:
+		if card.health == null:
+			continue
+		card.health = min(card.health + heal_amount, max_health)
+		card.get_node("Sprite2D/Control/Health").texture = load("res://assets/value_" + str(card.health) + ".png")
 
 func enemy_card_selected(defending_card):
 	var attacking_card = $"../CardManager".selected_monster
