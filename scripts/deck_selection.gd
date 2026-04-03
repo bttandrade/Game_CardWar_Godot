@@ -15,10 +15,11 @@ func _ready() -> void:
 		$GreenDeckSprite.modulate = Color(0.5, 0.5, 0.5, 1)
 		multiplayer.peer_connected.connect(_on_peer_connected)
 	else:
-		$WaitingLabel.visible = false
+		$WaitingLabel.text = "Escolha seu deck..."
 
 func _on_peer_connected(_peer_id):
-	$WaitingLabel.visible = false
+	$WaitingLabel.text = "Escolha seu deck..."
+	#$WaitingLabel.visible = true
 	$HeroDeckSprite.modulate = Color(1, 1, 1, 1)
 	$VillainDeckSprite.modulate = Color(1, 1, 1, 1)
 	$PirateDeckSprite.modulate = Color(1, 1, 1, 1)

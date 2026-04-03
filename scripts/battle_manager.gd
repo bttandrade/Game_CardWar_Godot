@@ -180,7 +180,7 @@ func destroy_card(card, card_owner):
 		new_pos = get_parent().get_parent().get_node("EnemyField/EnemyDiscard").position
 		if card in enemy_cards_on_field:
 			enemy_cards_on_field.erase(card)
-	
+	card.z_index = -1
 	card.card_is_in_slot.card_in_slot = false
 	card.card_is_in_slot = null
 	

@@ -1,17 +1,27 @@
 [gd_scene format=3 uid="uid://c45bhr85v8vqv"]
 
 [ext_resource type="Script" uid="uid://db8dj01bobgs8" path="res://scripts/game_over.gd" id="1_xeevv"]
+[ext_resource type="Texture2D" uid="uid://di5w2y36nv3e6" path="res://assets/background.png" id="2_wqhvx"]
 
 [node name="GameOver" type="Control" unique_id=1344642786]
 layout_mode = 3
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_xeevv")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1867716281]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_wqhvx")
+expand_mode = 1
 
 [node name="MessageLabel" type="Label" parent="." unique_id=295218593]
 layout_mode = 1
@@ -31,17 +41,10 @@ text = "VITORIA"
 
 [node name="LobbyBtn" type="Button" parent="." unique_id=976800541]
 layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = 56.0
-offset_top = 80.0
-offset_right = 126.0
-offset_bottom = 111.0
-grow_horizontal = 2
-grow_vertical = 0
+offset_left = 727.0
+offset_top = 424.0
+offset_right = 797.0
+offset_bottom = 455.0
 text = "VOLTAR"
 
 [connection signal="pressed" from="LobbyBtn" to="." method="_on_lobby_btn_pressed"]

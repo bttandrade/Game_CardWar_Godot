@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://cdu2squy3xgxu"]
 
+[ext_resource type="Texture2D" uid="uid://di5w2y36nv3e6" path="res://assets/background.png" id="1_8ek1b"]
 [ext_resource type="Script" uid="uid://bh0scsxoorf0u" path="res://scripts/enemy_hand.gd" id="2_et2ig"]
 [ext_resource type="Script" uid="uid://d3ho52b3rrcad" path="res://scripts/enemy_deck.gd" id="3_0b1n8"]
 [ext_resource type="Texture2D" uid="uid://cj7konh4pq37u" path="res://assets/card_hero_back.png" id="3_oq2yu"]
@@ -7,10 +8,19 @@
 [ext_resource type="Texture2D" uid="uid://gnqumj6hivbh" path="res://assets/card_slot.png" id="7_6ps5v"]
 [ext_resource type="PackedScene" uid="uid://ce33nhrtqqhe4" path="res://entities/energy_bar.tscn" id="7_8ek1b"]
 [ext_resource type="Script" uid="uid://c3dk33wwx2lfp" path="res://scripts/magic_slot.gd" id="7_aeu5d"]
+[ext_resource type="Texture2D" uid="uid://beh527e5tocxh" path="res://assets/unit_slot.png" id="9_0b1n8"]
 
 [node name="EnemyField" type="Node2D" unique_id=718353958]
 metadata/_edit_horizontal_guides_ = [320.0]
 metadata/_edit_vertical_guides_ = [368.0]
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1510084767]
+z_index = -2
+offset_right = 1280.0
+offset_bottom = 720.0
+mouse_filter = 2
+texture = ExtResource("1_8ek1b")
+expand_mode = 1
 
 [node name="CardManager" type="Node2D" parent="." unique_id=2127800296]
 
@@ -18,8 +28,13 @@ metadata/_edit_vertical_guides_ = [368.0]
 script = ExtResource("2_et2ig")
 
 [node name="EnemyDeck" type="Node2D" parent="." unique_id=2066130133]
-position = Vector2(1192, 104)
+position = Vector2(1144, 144)
 script = ExtResource("3_0b1n8")
+
+[node name="Sprite2D2" type="Sprite2D" parent="EnemyDeck" unique_id=524767303]
+position = Vector2(0, -0.5000458)
+scale = Vector2(0.30357143, 0.28904852)
+texture = ExtResource("9_0b1n8")
 
 [node name="Sprite2D" type="Sprite2D" parent="EnemyDeck" unique_id=578529340]
 scale = Vector2(1, -1)
@@ -40,54 +55,64 @@ position = Vector2(4.038968e-28, -255.99998)
 scale = Vector2(0.8, 0.8)
 
 [node name="CardSlot1" parent="CardsSlots" unique_id=1020057922 instance=ExtResource("4_oq2yu")]
-position = Vector2(520, 640)
-scale = Vector2(0.99999994, 0.99999994)
+position = Vector2(1040, 630)
+scale = Vector2(0.99999994, -1)
 
 [node name="CardSlot2" parent="CardsSlots" unique_id=1929408773 instance=ExtResource("4_oq2yu")]
-position = Vector2(710, 640)
-scale = Vector2(0.99999994, 0.99999994)
+position = Vector2(880, 630)
+scale = Vector2(0.99999994, -1)
 
 [node name="CardSlot3" parent="CardsSlots" unique_id=1646223130 instance=ExtResource("4_oq2yu")]
-position = Vector2(890, 640)
-scale = Vector2(0.99999994, 0.99999994)
+position = Vector2(720, 630)
+scale = Vector2(0.99999994, -1)
 
 [node name="CardSlot4" parent="CardsSlots" unique_id=1201118487 instance=ExtResource("4_oq2yu")]
-position = Vector2(1070, 640)
-scale = Vector2(0.99999994, 0.99999994)
+position = Vector2(560, 630)
+scale = Vector2(0.99999994, -1)
 
 [node name="CardSlot5" parent="CardsSlots" unique_id=2014788079 instance=ExtResource("4_oq2yu")]
-position = Vector2(520, 480)
-scale = Vector2(0.99999994, 0.99999994)
+position = Vector2(960, 459.99997)
+scale = Vector2(0.99999994, -1)
 script = ExtResource("7_aeu5d")
 
 [node name="CardSlot6" parent="CardsSlots" unique_id=528349753 instance=ExtResource("4_oq2yu")]
-position = Vector2(710, 480)
+position = Vector2(800, 459.99997)
+scale = Vector2(1, -1)
 script = ExtResource("7_aeu5d")
 
 [node name="CardSlot7" parent="CardsSlots" unique_id=1502502869 instance=ExtResource("4_oq2yu")]
-position = Vector2(890, 479.99997)
+position = Vector2(640, 460)
+scale = Vector2(1, -1)
 script = ExtResource("7_aeu5d")
 
 [node name="CardSlot8" parent="CardsSlots" unique_id=1303313140 instance=ExtResource("4_oq2yu")]
-position = Vector2(1070, 479.99994)
+visible = false
+position = Vector2(1070, 469.99997)
+scale = Vector2(1, -1)
 script = ExtResource("7_aeu5d")
 
 [node name="EnemyHealth" type="Label" parent="." unique_id=2024847550]
-offset_left = 1176.0
-offset_top = 200.00002
-offset_right = 1249.0
-offset_bottom = 288.0
+offset_left = 984.00006
+offset_top = 96.0
+offset_right = 1057.0
+offset_bottom = 184.0
 scale = Vector2(0.6, 0.6)
 theme_override_font_sizes/font_size = 64
 text = "10"
 
 [node name="EnemyDiscard" type="Node2D" parent="." unique_id=1473721429]
-position = Vector2(232, 120)
+visible = false
+position = Vector2(1144, 144)
 
-[node name="Sprite2D" type="Sprite2D" parent="EnemyDiscard" unique_id=770008100]
-position = Vector2(7.6293945e-06, 0)
+[node name="Sprite2D" type="Sprite2D" parent="EnemyDiscard" unique_id=530005882]
+visible = false
 scale = Vector2(0.8, 0.8)
 texture = ExtResource("7_6ps5v")
 
+[node name="Sprite2D2" type="Sprite2D" parent="EnemyDiscard" unique_id=90651142]
+position = Vector2(2.336502e-05, -3.6478043e-05)
+scale = Vector2(0.24, 0.235)
+texture = ExtResource("9_0b1n8")
+
 [node name="EnergyBar" parent="." unique_id=1189802039 instance=ExtResource("7_8ek1b")]
-position = Vector2(1195, 273)
+position = Vector2(1144, 264)

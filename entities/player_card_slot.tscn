@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cuc1ghl78n6uu"]
 
 [ext_resource type="Script" uid="uid://cxgxqtt4mangs" path="res://scripts/unit_slot.gd" id="1_cypty"]
-[ext_resource type="Texture2D" uid="uid://gnqumj6hivbh" path="res://assets/card_slot.png" id="2_r12b7"]
+[ext_resource type="Texture2D" uid="uid://beh527e5tocxh" path="res://assets/unit_slot.png" id="2_r12b7"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cypty"]
 size = Vector2(112, 140)
@@ -11,6 +11,8 @@ z_index = -1
 script = ExtResource("1_cypty")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1220781295]
+position = Vector2(-1.2516975e-06, -1.3113022e-05)
+scale = Vector2(0.3, 0.29)
 texture = ExtResource("2_r12b7")
 
 [node name="Area2D" type="Area2D" parent="." unique_id=1616717559]

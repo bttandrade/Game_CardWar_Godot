@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bho3o2itqy7at"
-path="res://.godot/imported/energy.png-d31ae10deb2f267a25814b3eac80d643.ctex"
+uid="uid://beh527e5tocxh"
+path="res://.godot/imported/unit_slot.png-9c8d1cf1a2a186f936bb3ce37d95c63d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/energy.png"
-dest_files=["res://.godot/imported/energy.png-d31ae10deb2f267a25814b3eac80d643.ctex"]
+source_file="res://assets/unit_slot.png"
+dest_files=["res://.godot/imported/unit_slot.png-9c8d1cf1a2a186f936bb3ce37d95c63d.ctex"]
 
 [params]
 

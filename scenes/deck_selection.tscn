@@ -4,7 +4,9 @@
 [ext_resource type="Script" uid="uid://cjwqtnu0ojgg7" path="res://scripts/deck_selection.gd" id="1_37nm2"]
 [ext_resource type="Texture2D" uid="uid://dhvy76g1uy1ev" path="res://assets/card_villain_back.png" id="2_37nm2"]
 [ext_resource type="Script" uid="uid://d307hhyydbmlu" path="res://scripts/hero_deck_sprite.gd" id="2_xc7bc"]
+[ext_resource type="Texture2D" uid="uid://di5w2y36nv3e6" path="res://assets/background.png" id="2_yfn8c"]
 [ext_resource type="Script" uid="uid://bj0j8k0v7jscc" path="res://scripts/villain_deck_sprite.gd" id="4_uuj07"]
+[ext_resource type="Texture2D" uid="uid://beh527e5tocxh" path="res://assets/unit_slot.png" id="4_wu3a3"]
 [ext_resource type="Script" uid="uid://bvfr5vhbjvbcx" path="res://scripts/pirate_deck_sprite.gd" id="6_5jbo7"]
 [ext_resource type="Texture2D" uid="uid://bbgeacfim7gnr" path="res://assets/card_pirate_back.png" id="6_t6p2p"]
 [ext_resource type="Texture2D" uid="uid://b03ssnhpooinj" path="res://assets/card_green_back.png" id="7_bltbo"]
@@ -20,9 +22,21 @@ size = Vector2(104, 132)
 script = ExtResource("1_37nm2")
 metadata/_edit_vertical_guides_ = [640.0]
 
+[node name="TextureRect" type="TextureRect" parent="." unique_id=504108414]
+offset_right = 1280.0
+offset_bottom = 720.0
+mouse_filter = 2
+texture = ExtResource("2_yfn8c")
+expand_mode = 1
+
 [node name="HeroDeckSprite" type="Area2D" parent="." unique_id=1830936717]
-position = Vector2(328, 256)
+position = Vector2(392, 152)
 script = ExtResource("2_xc7bc")
+
+[node name="Sprite2D2" type="Sprite2D" parent="HeroDeckSprite" unique_id=1522237406]
+position = Vector2(-1.3321638e-05, 6.824732e-06)
+scale = Vector2(0.3080357, 0.29443452)
+texture = ExtResource("4_wu3a3")
 
 [node name="Sprite2D" type="Sprite2D" parent="HeroDeckSprite" unique_id=507882177]
 texture = ExtResource("1_7tu5d")
@@ -30,9 +44,21 @@ texture = ExtResource("1_7tu5d")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HeroDeckSprite" unique_id=215664105]
 shape = SubResource("RectangleShape2D_xc7bc")
 
+[node name="Label" type="Label" parent="HeroDeckSprite" unique_id=2025057734]
+offset_left = 64.0
+offset_top = -24.0
+offset_right = 196.0
+offset_bottom = 21.0
+theme_override_font_sizes/font_size = 32
+text = " O REINO"
+
 [node name="VillainDeckSprite" type="Area2D" parent="." unique_id=1400015407]
-position = Vector2(544, 256)
+position = Vector2(720, 152)
 script = ExtResource("4_uuj07")
+
+[node name="Sprite2D2" type="Sprite2D" parent="VillainDeckSprite" unique_id=2090173211]
+scale = Vector2(0.3080357, 0.29443452)
+texture = ExtResource("4_wu3a3")
 
 [node name="Sprite2D" type="Sprite2D" parent="VillainDeckSprite" unique_id=456102353]
 texture = ExtResource("2_37nm2")
@@ -40,9 +66,21 @@ texture = ExtResource("2_37nm2")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="VillainDeckSprite" unique_id=1845496084]
 shape = SubResource("RectangleShape2D_uuj07")
 
+[node name="Label" type="Label" parent="VillainDeckSprite" unique_id=115484114]
+offset_left = 64.0
+offset_top = -24.0
+offset_right = 196.0
+offset_bottom = 21.0
+theme_override_font_sizes/font_size = 32
+text = " OS CAÍDOS"
+
 [node name="PirateDeckSprite" type="Area2D" parent="." unique_id=1989124405]
-position = Vector2(736, 256)
+position = Vector2(720, 384)
 script = ExtResource("6_5jbo7")
+
+[node name="Sprite2D2" type="Sprite2D" parent="PirateDeckSprite" unique_id=1573892312]
+scale = Vector2(0.3080357, 0.29443452)
+texture = ExtResource("4_wu3a3")
 
 [node name="Sprite2D" type="Sprite2D" parent="PirateDeckSprite" unique_id=680183965]
 texture = ExtResource("6_t6p2p")
@@ -50,9 +88,21 @@ texture = ExtResource("6_t6p2p")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PirateDeckSprite" unique_id=1031303570]
 shape = SubResource("RectangleShape2D_uuj07")
 
+[node name="Label" type="Label" parent="PirateDeckSprite" unique_id=951164993]
+offset_left = 64.0
+offset_top = -24.0
+offset_right = 196.0
+offset_bottom = 21.0
+theme_override_font_sizes/font_size = 32
+text = " O NÁVIO"
+
 [node name="GreenDeckSprite" type="Area2D" parent="." unique_id=1524760493]
-position = Vector2(928, 256)
+position = Vector2(392, 384)
 script = ExtResource("8_qnjl1")
+
+[node name="Sprite2D2" type="Sprite2D" parent="GreenDeckSprite" unique_id=194250284]
+scale = Vector2(0.3080357, 0.29443452)
+texture = ExtResource("4_wu3a3")
 
 [node name="Sprite2D" type="Sprite2D" parent="GreenDeckSprite" unique_id=2086134920]
 texture = ExtResource("7_bltbo")
@@ -60,9 +110,17 @@ texture = ExtResource("7_bltbo")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="GreenDeckSprite" unique_id=1622446368]
 shape = SubResource("RectangleShape2D_uuj07")
 
+[node name="Label" type="Label" parent="GreenDeckSprite" unique_id=690996964]
+offset_left = 64.0
+offset_top = -24.0
+offset_right = 196.0
+offset_bottom = 21.0
+theme_override_font_sizes/font_size = 32
+text = " OS VERDES"
+
 [node name="WaitingLabel" type="Label" parent="." unique_id=1671249183]
-offset_left = 381.0
-offset_top = 429.0
-offset_right = 421.0
-offset_bottom = 452.0
+offset_left = 376.0
+offset_top = 520.0
+offset_right = 416.0
+offset_bottom = 565.0
 theme_override_font_sizes/font_size = 32
