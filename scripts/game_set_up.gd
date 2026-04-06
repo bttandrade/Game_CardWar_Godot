@@ -9,16 +9,12 @@ func host_set_up():
 	$BattleManager.player_health = STARTING_HEALTH
 	$BattleManager.enemy_health = STARTING_HEALTH
 	
-	var deck_size = $PlayerDeck.chosen_deck.size()
 	var chosen = get_tree().get_meta("chosen_deck")
 	var enemy = get_tree().get_meta("enemy_deck")
 	
 	get_parent().get_node("PlayerField/PlayerDeck").visible = true
 	get_parent().get_node("PlayerField/PlayerDeck/Sprite2D").texture = load("res://assets/card_" + chosen + "_back.png")
 	get_parent().get_node("EnemyField/EnemyDeck/Sprite2D").texture = load("res://assets/card_" + enemy + "_back.png")
-	
-	get_parent().get_node("EnemyField/EnemyDeck").deck_size = deck_size
-	get_parent().get_node("EnemyField/EnemyDeck/Label").text = str(deck_size)
 	
 	$EnergyBar.is_enemy = false
 	$EnergyBar.current_energy = STARTING_ENERGY
@@ -47,6 +43,14 @@ func host_set_up():
 	$EndTurnButton.visible = true
 	$EndTurnButton.disabled = false
 	$InputManager.input_disabled = false
+	
+	await get_tree().create_timer(0.5).timeout
+	
+	$EndTurnButton.visible = true
+	$EndTurnButton.disabled = false
+	$InputManager.input_disabled = false
+	
+	get_parent().get_node("Announcement").show_message("Sua vez!", 2.0)
 
 func client_set_up():
 	$PlayerHealth.text = str(STARTING_HEALTH)
@@ -54,15 +58,11 @@ func client_set_up():
 	$BattleManager.player_health = STARTING_HEALTH
 	$BattleManager.enemy_health = STARTING_HEALTH
 	
-	var deck_size = $PlayerDeck.chosen_deck.size()
 	var chosen = get_tree().get_meta("chosen_deck")
 	var enemy = get_tree().get_meta("enemy_deck")
 	
 	get_parent().get_node("PlayerField/PlayerDeck/Sprite2D").texture = load("res://assets/card_" + chosen + "_back.png")
 	get_parent().get_node("EnemyField/EnemyDeck/Sprite2D").texture = load("res://assets/card_" + enemy + "_back.png")
-	
-	get_parent().get_node("EnemyField/EnemyDeck").deck_size = deck_size
-	get_parent().get_node("EnemyField/EnemyDeck/Label").text = str(deck_size)
 	
 	$EnergyBar.is_enemy = false
 	$EnergyBar.current_energy = STARTING_ENERGY

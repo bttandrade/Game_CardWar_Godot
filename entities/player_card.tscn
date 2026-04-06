@@ -144,13 +144,13 @@ position = Vector2(38, -48)
 [node name="Label" type="Label" parent="Sprite2D/Control" unique_id=1428278633]
 layout_mode = 0
 offset_left = -42.0
-offset_top = 18.0
+offset_top = 16.0
 offset_right = 42.0
 offset_bottom = 56.0
 theme_override_constants/line_spacing = -1
 theme_override_font_sizes/font_size = 9
 text = "Exemplo de um efeito escrito aqui"
-autowrap_mode = 2
+autowrap_mode = 3
 
 [node name="Area2D" type="Area2D" parent="." unique_id=535909184]
 

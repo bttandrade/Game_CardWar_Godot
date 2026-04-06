@@ -6,6 +6,7 @@ var enemy_chose = false
 var i_chose = false
 
 func _ready() -> void:
+	multiplayer.peer_disconnected.connect(_on_peer_disconnected)
 	if get_tree().get_meta("is_host"):
 		$WaitingLabel.text = "Aguardando oponente conectar..."
 		$WaitingLabel.visible = true
@@ -17,9 +18,13 @@ func _ready() -> void:
 	else:
 		$WaitingLabel.text = "Escolha seu deck..."
 
+func _on_peer_disconnected(_peer_id):
+	$WaitingLabel.text = "Oponente desconectou..."
+	await get_tree().create_timer(2.0).timeout
+	get_tree().change_scene_to_file("res://scenes/main.tscn")
+
 func _on_peer_connected(_peer_id):
 	$WaitingLabel.text = "Escolha seu deck..."
-	#$WaitingLabel.visible = true
 	$HeroDeckSprite.modulate = Color(1, 1, 1, 1)
 	$VillainDeckSprite.modulate = Color(1, 1, 1, 1)
 	$PirateDeckSprite.modulate = Color(1, 1, 1, 1)

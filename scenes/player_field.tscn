@@ -10,12 +10,8 @@
 [ext_resource type="PackedScene" uid="uid://cuc1ghl78n6uu" path="res://entities/player_card_slot.tscn" id="6_oexhy"]
 [ext_resource type="Script" uid="uid://c3dk33wwx2lfp" path="res://scripts/magic_slot.gd" id="7_8nv6h"]
 [ext_resource type="Script" uid="uid://dx807dow6kvft" path="res://scripts/battle_manager.gd" id="8_rj0vc"]
-[ext_resource type="Texture2D" uid="uid://gnqumj6hivbh" path="res://assets/card_slot.png" id="10_xhjue"]
 [ext_resource type="PackedScene" uid="uid://ce33nhrtqqhe4" path="res://entities/energy_bar.tscn" id="11_rpubd"]
 [ext_resource type="Texture2D" uid="uid://beh527e5tocxh" path="res://assets/unit_slot.png" id="13_oexhy"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_75cap"]
-size = Vector2(104, 132)
 
 [node name="PlayerField" type="Node2D" unique_id=1272774185]
 script = ExtResource("1_xhjue")
@@ -23,7 +19,7 @@ metadata/_edit_vertical_guides_ = [904.0, 912.0, 640.0]
 metadata/_edit_horizontal_guides_ = [360.0]
 
 [node name="TextureRect" type="TextureRect" parent="." unique_id=601784727]
-z_index = -2
+z_index = -4
 offset_right = 1280.0
 offset_bottom = 720.0
 mouse_filter = 2
@@ -41,29 +37,13 @@ position = Vector2(136, 576)
 script = ExtResource("3_rpubd")
 
 [node name="Sprite2D2" type="Sprite2D" parent="PlayerDeck" unique_id=1513118555]
+z_index = -2
 position = Vector2(3.33786e-06, -0.5000391)
 scale = Vector2(0.30357143, 0.28904852)
 texture = ExtResource("13_oexhy")
 
 [node name="Sprite2D" type="Sprite2D" parent="PlayerDeck" unique_id=1802905846]
 texture = ExtResource("5_xhjue")
-
-[node name="Area2D" type="Area2D" parent="PlayerDeck" unique_id=1421257961]
-collision_layer = 4
-collision_mask = 4
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDeck/Area2D" unique_id=1702067411]
-shape = SubResource("RectangleShape2D_75cap")
-
-[node name="Label" type="Label" parent="PlayerDeck" unique_id=80201667]
-offset_left = -16.0
-offset_top = -24.0
-offset_right = 16.0
-offset_bottom = 21.0
-theme_override_font_sizes/font_size = 32
-text = "8"
-horizontal_alignment = 1
-vertical_alignment = 1
 
 [node name="InputManager" type="Node2D" parent="." unique_id=817663293]
 script = ExtResource("5_pfs4d")
@@ -133,12 +113,7 @@ text = "10"
 visible = false
 position = Vector2(136, 576)
 
-[node name="Sprite2D" type="Sprite2D" parent="PlayerDiscard" unique_id=1485883249]
-visible = false
-scale = Vector2(0.8, 0.8)
-texture = ExtResource("10_xhjue")
-
-[node name="Sprite2D2" type="Sprite2D" parent="PlayerDiscard" unique_id=559397774]
+[node name="Sprite2D" type="Sprite2D" parent="PlayerDiscard" unique_id=559397774]
 position = Vector2(2.2888184e-05, -7.6293945e-06)
 scale = Vector2(0.24, 0.235)
 texture = ExtResource("13_oexhy")

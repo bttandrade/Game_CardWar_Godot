@@ -1,11 +1,10 @@
 extends Node2D
-
 const CARD_SCENE_PATH = preload("res://entities/enemy_card.tscn")
 const CARD_DRAW_SPEED = 0.2
 const STARTING_HAND_SIZE = 4
-
 var player_deck_reference
 var card_database_reference
+var base_deck = []
 var deck_size
 
 func _ready() -> void:
@@ -13,16 +12,9 @@ func _ready() -> void:
 	player_deck_reference = get_parent().get_parent().get_node("PlayerField/PlayerDeck")
 
 func draw_card(card_drawn_name):
-	if deck_size - 1 == 0:
-		visible = false
-	else:
-		deck_size -= 1
-		$Label.text = str(deck_size)
-
 	var card_scene = CARD_SCENE_PATH
 	var new_card = card_scene.instantiate()
-
-	new_card.scale = Vector2(1,1)
+	new_card.scale = Vector2(1, 1)
 	
 	var card_texture = str(card_drawn_name)
 	var attack_value = str(card_database_reference.CARDS[card_drawn_name][0])

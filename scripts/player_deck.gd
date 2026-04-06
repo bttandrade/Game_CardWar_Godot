@@ -1,5 +1,4 @@
 extends Node2D
-
 const CARD_SCENE_PATH = preload("res://entities/player_card.tscn")
 const CARD_DRAW_SPEED = 0.2
 const STARTING_HAND_SIZE = 4
@@ -9,28 +8,34 @@ var villain_deck = ["villain_soldier", "villain_archer", "villain_death", "villa
 var pirate_deck = ["pirate_soldier", "pirate_spear", "pirate_pistol", "pirate_dual", "pirate_bomb", "pirate_cannon", "pirate_plunder", "pirate_cannonball"]
 var green_deck = ["green_warrior", "green_sword", "green_mace", "green_axe", "green_dual", "green_mage", "green_warcry", "green_devastation"]
 var chosen_deck = []
+var base_deck = []
 var card_database_reference
 
 func _ready() -> void:
 	var deck_choice = get_tree().get_meta("chosen_deck")
 	if deck_choice == "hero":
-		chosen_deck = hero_deck.duplicate()
+		base_deck = hero_deck.duplicate()
 	elif deck_choice == "villain":
-		chosen_deck = villain_deck.duplicate()
+		base_deck = villain_deck.duplicate()
 	elif deck_choice == "pirate":
-		chosen_deck = pirate_deck.duplicate()
+		base_deck = pirate_deck.duplicate()
 	elif deck_choice == "green":
-		chosen_deck = green_deck.duplicate()
-	chosen_deck.shuffle()
+		base_deck = green_deck.duplicate()
+	reset_deck()
 	card_database_reference = preload("res://scripts/card_database.gd")
+
+func reset_deck():
+	chosen_deck = base_deck.duplicate()
+	chosen_deck.shuffle()
 
 func draw_initial_hand():
 	await get_tree().create_timer(1.0).timeout
 	var player_id = multiplayer.get_unique_id()
 	
 	for i in range(STARTING_HAND_SIZE):
+		if chosen_deck.size() == 0:
+			reset_deck()
 		var card_drawn_name = chosen_deck[0]
-		
 		draw_here_and_for_client(player_id, card_drawn_name)
 		rpc("draw_here_and_for_client", player_id, card_drawn_name)
 		await get_tree().create_timer(0.1).timeout
@@ -46,10 +51,8 @@ func draw_card(card_drawn_name):
 	chosen_deck.erase(card_drawn_name)
 	
 	if chosen_deck.size() == 0:
-		$Area2D/CollisionShape2D.disabled = true
-		visible = false
+		reset_deck()
 	
-	$Label.text = str(chosen_deck.size())
 	var card_scene = CARD_SCENE_PATH
 	var new_card = card_scene.instantiate()
 	
@@ -77,7 +80,7 @@ func draw_card(card_drawn_name):
 			new_card.has_death_touch = true
 		if new_card.ability_script.get("has_cannon"):
 			new_card.has_cannon = true
-
+	
 	$"../CardManager".add_child(new_card)
 	$"../CardManager".connect_card_signals(new_card)
 	new_card.position = position
@@ -86,9 +89,13 @@ func draw_card(card_drawn_name):
 	new_card.get_node("AnimationPlayer").play("card_flip")
 
 func reset_draw():
-	if chosen_deck.size() > 0:
-		var player_id = multiplayer.get_unique_id()
-		var card_drawn_name = chosen_deck[0]
-		draw_here_and_for_client(player_id, card_drawn_name)
-		rpc("draw_here_and_for_client", player_id, card_drawn_name)
-		await get_tree().create_timer(CARD_DRAW_SPEED + 0.1).timeout
+	if $"../PlayerHand".player_hand.size() >= $"../PlayerHand".MAX_HAND_SIZE:
+		get_parent().get_parent().get_node("Announcement").show_message("Mão cheia! Jogue uma carta primeiro.", 2.0)
+		return
+	if chosen_deck.size() == 0:
+		reset_deck()
+	var player_id = multiplayer.get_unique_id()
+	var card_drawn_name = chosen_deck[0]
+	draw_here_and_for_client(player_id, card_drawn_name)
+	rpc("draw_here_and_for_client", player_id, card_drawn_name)
+	await get_tree().create_timer(CARD_DRAW_SPEED + 0.1).timeout

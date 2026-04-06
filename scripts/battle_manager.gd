@@ -16,7 +16,23 @@ var player_cards_that_attacked_this_turn = []
 var can_attack = false
 
 func _ready() -> void:
-	pass
+	multiplayer.peer_disconnected.connect(_on_peer_disconnected)
+
+func _on_peer_disconnected(_peer_id):
+	get_parent().get_parent().get_node("Announcement").show_message("Oponente desconectou!", 2.0)
+	await get_tree().create_timer(2.0).timeout
+	multiplayer.multiplayer_peer.close()
+	multiplayer.multiplayer_peer = null
+	if get_tree().has_meta("chosen_deck"):
+		get_tree().remove_meta("chosen_deck")
+	if get_tree().has_meta("enemy_deck"):
+		get_tree().remove_meta("enemy_deck")
+	if get_tree().has_meta("is_host"):
+		get_tree().remove_meta("is_host")
+	if get_tree().has_meta("player_won"):
+		get_tree().remove_meta("player_won")
+	get_tree().change_scene_to_file("res://scenes/main.tscn")
+
 
 func direct_damage(damage):
 	var player_id = multiplayer.get_unique_id()
@@ -43,6 +59,7 @@ func _on_end_turn_button_pressed() -> void:
 		if card.ability_script:
 			card.ability_script.reset_ability()
 	player_cards_that_attacked_this_turn = []
+	get_parent().get_parent().get_node("Announcement").show_message("Vez do oponente!", 2.0)
 	rpc("change_turn")
 
 @rpc("any_peer")
@@ -55,6 +72,8 @@ func change_turn():
 	
 	var player_id = multiplayer.get_unique_id()
 	rpc("sync_enemy_energy", player_id, energy_bar.current_energy, energy_bar.max_energy_this_turn)
+	
+	get_parent().get_parent().get_node("Announcement").show_message("Sua vez!", 2.0)
 	
 	await $"../PlayerDeck".reset_draw()
 	enable_end_turn_btn(true)
