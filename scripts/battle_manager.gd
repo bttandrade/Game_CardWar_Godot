@@ -43,10 +43,10 @@ func direct_damage(damage):
 func direct_damage_here_and_for_client(player_id, damage):
 	if multiplayer.get_unique_id() == player_id:
 		enemy_health = max(0, enemy_health - damage)
-		get_parent().get_parent().get_node("EnemyField/EnemyHealth").text = str(enemy_health)
+		get_parent().get_parent().get_node("EnemyField/EnemyCrystal/EnemyHealth").text = str(enemy_health)
 	else:
 		player_health = max(0, player_health - damage)
-		$"../PlayerHealth".text = str(player_health)
+		$"../PlayerCrystal/PlayerHealth".text = str(player_health)
 	
 	check_game_over()
 
@@ -67,11 +67,11 @@ func change_turn():
 	can_attack = true
 	$"../InputManager".input_disabled = true
 	
-	var energy_bar = $"../EnergyBar"
-	energy_bar.on_turn_start()
+	var coin_area = $"../CoinArea"
+	coin_area.on_turn_start(1)
 	
 	var player_id = multiplayer.get_unique_id()
-	rpc("sync_enemy_energy", player_id, energy_bar.current_energy, energy_bar.max_energy_this_turn)
+	rpc("sync_enemy_coins", player_id, coin_area.current_coins)
 	
 	get_parent().get_parent().get_node("Announcement").show_message("Sua vez!", 2.0)
 	
@@ -80,9 +80,9 @@ func change_turn():
 	$"../InputManager".input_disabled = false
 
 @rpc("any_peer")
-func sync_enemy_energy(player_id, current, maximum):
+func sync_enemy_coins(player_id, count):
 	if multiplayer.get_unique_id() != player_id:
-		get_parent().get_parent().get_node("EnemyField/EnergyBar").set_energy(current, maximum)
+		get_parent().get_parent().get_node("EnemyField/CoinArea").set_coins(count)
 
 func attack_card(attacking_card, defending_card):
 	if !can_attack:
@@ -245,10 +245,10 @@ func attack_player_here_and_for_client(player_id, attacking_card_name):
 	
 	if multiplayer.get_unique_id() == player_id:
 		enemy_health = max(0, enemy_health - attacking_card.attack)
-		get_parent().get_parent().get_node("EnemyField/EnemyHealth").text = str(enemy_health)
+		get_parent().get_parent().get_node("EnemyField/EnemyCrystal/EnemyHealth").text = str(enemy_health)
 	else:
 		player_health = max(0, player_health - attacking_card.attack)
-		$"../PlayerHealth".text = str(player_health)
+		$"../PlayerCrystal/PlayerHealth".text = str(player_health)
 	
 	check_game_over()
 	
@@ -447,10 +447,10 @@ func cannonball_here_and_for_client(player_id, shots, damage):
 		else:
 			if multiplayer.get_unique_id() == player_id:
 				enemy_health = max(0, enemy_health - damage)
-				get_parent().get_parent().get_node("EnemyField/EnemyHealth").text = str(enemy_health)
+				get_parent().get_parent().get_node("EnemyField/EnemyCrystal/EnemyHealth").text = str(enemy_health)
 			else:
 				player_health = max(0, player_health - damage)
-				$"../PlayerHealth".text = str(player_health)
+				$"../PlayerCrystal/PlayerHealth".text = str(player_health)
 			check_game_over()
 		
 		await timer(0.5)

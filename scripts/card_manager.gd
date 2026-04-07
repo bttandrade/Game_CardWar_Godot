@@ -65,14 +65,14 @@ func finish_drag():
 			if card_slot_found.get_parent() == $"../CardsSlots":
 				
 				var card_cost = card_being_dragged.cost
-				if not $"../EnergyBar".spend_energy(card_cost):
+				if not $"../CoinArea".spend_coins(card_cost):
+					get_parent().get_parent().get_node("Announcement").show_message("Moedas insuficientes!", 2.0)
 					player_hand_reference.add_card_to_hand(card_being_dragged, DEFAULT_CARD_MOVE_SPEED)
 					card_being_dragged = null
 					return
 				
-				var energy_bar = $"../EnergyBar"
 				var player_id = multiplayer.get_unique_id()
-				$"../BattleManager".rpc("sync_enemy_energy", player_id, energy_bar.current_energy, energy_bar.max_energy_this_turn)
+				$"../BattleManager".rpc("sync_enemy_coins", player_id, $"../CoinArea".current_coins)
 				
 				play_card_here_and_for_client(player_id, str(card_being_dragged.name), str(card_slot_found.name))
 				rpc("play_card_here_and_for_client", player_id, str(card_being_dragged.name), str(card_slot_found.name))
