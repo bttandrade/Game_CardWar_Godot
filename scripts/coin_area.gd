@@ -20,7 +20,7 @@ func on_turn_start(coins_to_add: int):
 func spawn_coin():
 	if current_coins >= MAX_COINS:
 		return
-	
+	play_sound("res://sounds/coin.mp3")
 	var final_pos = find_free_position()
 	
 	var coin = COIN_SCENE.instantiate()
@@ -88,3 +88,11 @@ func set_coins(count: int):
 			if i < children.size():
 				children[i].queue_free()
 		current_coins = count
+
+func play_sound(sound_path: String):
+	var audio = AudioStreamPlayer.new()
+	audio.stream = load(sound_path)
+	audio.pitch_scale = randf_range(0.9, 1.1)
+	get_tree().root.add_child(audio)
+	audio.play()
+	audio.connect("finished", audio.queue_free)

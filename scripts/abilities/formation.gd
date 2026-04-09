@@ -8,7 +8,7 @@ func trigger_ability(battle_manager_reference, _input_manager_reference, _this_c
 	if ABILITY_TRIGGER_EVENT != trigger_event:
 		return
 	
-	battle_manager_reference.holy_shield(HEAL_AMOUNT, MAX_HEALTH)
+	battle_manager_reference.formation(HEAL_AMOUNT, MAX_HEALTH)
 
 func reset_ability():
 	pass

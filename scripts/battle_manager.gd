@@ -47,7 +47,7 @@ func direct_damage_here_and_for_client(player_id, damage):
 	else:
 		player_health = max(0, player_health - damage)
 		$"../PlayerCrystal/PlayerHealth".text = str(player_health)
-	
+	play_sound("res://sounds/crystal.mp3", 1, 1)
 	check_game_over()
 
 func _on_end_turn_button_pressed() -> void:
@@ -124,16 +124,18 @@ func attack_card_here_and_for_client(player_id, attacking_card_name, defending_c
 	var tween = get_tree().create_tween()
 	tween.tween_property(attacking_card, "position", new_pos, CARD_MOVE_SPEED)
 	
-	await timer(0.15)
+	await timer(0.1)
 	
 	var tween2 = get_tree().create_tween()
 	tween2.tween_property(attacking_card, "position", attacking_card.card_is_in_slot.global_position, CARD_MOVE_SPEED)
 	
 	if attacker_has_death_touch:
+		play_sound("res://sounds/death_touch.mp3", 1, 1)
 		defending_card.health = 0
 		defending_card.get_node("Sprite2D/Control/Health").texture = load("res://assets/value_0.png")
 		attacking_card.get_node("Sprite2D/Control/Health").texture = load("res://assets/value_" + str(attacking_card.health) + ".png")
 	elif attacker_has_cannon:
+		play_sound("res://sounds/cannon.mp3", 1, 1)
 		var cards_to_hit
 		if multiplayer.get_unique_id() == player_id:
 			cards_to_hit = enemy_cards_on_field.duplicate()
@@ -146,6 +148,7 @@ func attack_card_here_and_for_client(player_id, attacking_card_name, defending_c
 			card.get_node("Sprite2D/Control/Health").texture = load("res://assets/value_" + str(card.health) + ".png")
 		attacking_card.get_node("Sprite2D/Control/Health").texture = load("res://assets/value_" + str(attacking_card.health) + ".png")
 	else:
+		play_sound("res://sounds/punch.mp3", 1, 1)
 		defending_card.health = max(0, defending_card.health - attacking_card.attack)
 		defending_card.get_node("Sprite2D/Control/Health").texture = load("res://assets/value_" + str(defending_card.health) + ".png")
 		attacking_card.health = max(0, attacking_card.health - defending_card.attack)
@@ -241,8 +244,8 @@ func attack_player_here_and_for_client(player_id, attacking_card_name):
 	var tween = get_tree().create_tween()
 	tween.tween_property(attacking_card, "position", new_pos, CARD_MOVE_SPEED)
 	
-	await timer(0.15)
-	
+	await timer(0.1)
+	play_sound("res://sounds/crystal.mp3", 1, 1)
 	if multiplayer.get_unique_id() == player_id:
 		enemy_health = max(0, enemy_health - attacking_card.attack)
 		get_parent().get_parent().get_node("EnemyField/EnemyCrystal/EnemyHealth").text = str(enemy_health)
@@ -345,10 +348,12 @@ func hellfire(target_card):
 
 @rpc("any_peer")
 func hellfire_here_and_for_client(player_id, target_card_name):
+	play_sound("res://sounds/hellfire.mp3", 1, 1)
 	var card_manager
 	var cards_on_field
 	
 	if multiplayer.get_unique_id() == player_id:
+		
 		card_manager = get_parent().get_parent().get_node("EnemyField/CardManager")
 		cards_on_field = enemy_cards_on_field
 	else:
@@ -457,23 +462,29 @@ func cannonball_here_and_for_client(player_id, shots, damage):
 
 func plunder():
 	var player_id = multiplayer.get_unique_id()
-	plunder_here_and_for_client(player_id)
-	rpc("plunder_here_and_for_client", player_id)
+	var amount = randi_range(1, 2)
+	plunder_here_and_for_client(player_id, amount)
+	rpc("plunder_here_and_for_client", player_id, amount)
 
 @rpc("any_peer")
-func plunder_here_and_for_client(player_id):
+func plunder_here_and_for_client(player_id, amount):
 	if multiplayer.get_unique_id() == player_id:
-		var my_energy = $"../EnergyBar"
-		my_energy.current_energy = min(my_energy.current_energy + 1, my_energy.max_energy_this_turn)
-		my_energy.update_display()
-		
-		rpc("sync_enemy_energy", player_id, my_energy.current_energy, my_energy.max_energy_this_turn)
+		var my_coins = $"../CoinArea"
+		var enemy_coins = get_parent().get_parent().get_node("EnemyField/CoinArea")
+		var actual = min(amount, enemy_coins.current_coins)
+		if actual <= 0:
+			return
+		for i in range(actual):
+			if my_coins.current_coins < my_coins.MAX_COINS:
+				my_coins.spawn_coin()
+		rpc("sync_enemy_coins", player_id, my_coins.current_coins)
 	else:
-		var my_energy = $"../EnergyBar"
-		my_energy.current_energy = max(0, my_energy.current_energy - 1)
-		my_energy.update_display()
-		
-		rpc("sync_enemy_energy", multiplayer.get_unique_id(), my_energy.current_energy, my_energy.max_energy_this_turn)
+		var my_coins = $"../CoinArea"
+		var actual = min(amount, my_coins.current_coins)
+		if actual <= 0:
+			return
+		my_coins.spend_coins(actual)
+		rpc("sync_enemy_coins", multiplayer.get_unique_id(), my_coins.current_coins)
 
 func warcry():
 	var player_id = multiplayer.get_unique_id()
@@ -521,13 +532,13 @@ func devastation_here_and_for_client(_player_id):
 		if entry.card.health == min_health:
 			destroy_card(entry.card, entry.owner)
 
-func holy_shield(heal_amount, max_health):
+func formation(shield_amount, max_health):
 	var player_id = multiplayer.get_unique_id()
-	holy_shield_here_and_for_client(player_id, heal_amount, max_health)
-	rpc("holy_shield_here_and_for_client", player_id, heal_amount, max_health)
+	formation_here_and_for_client(player_id, shield_amount, max_health)
+	rpc("formation_here_and_for_client", player_id, shield_amount, max_health)
 
 @rpc("any_peer")
-func holy_shield_here_and_for_client(player_id, heal_amount, max_health):
+func formation_here_and_for_client(player_id, shield_amount, max_health):
 	var cards_on_field
 	if multiplayer.get_unique_id() == player_id:
 		cards_on_field = player_cards_on_field
@@ -537,7 +548,7 @@ func holy_shield_here_and_for_client(player_id, heal_amount, max_health):
 	for card in cards_on_field:
 		if card.health == null:
 			continue
-		card.health = min(card.health + heal_amount, max_health)
+		card.health = min(card.health + shield_amount, max_health)
 		card.get_node("Sprite2D/Control/Health").texture = load("res://assets/value_" + str(card.health) + ".png")
 
 func enemy_card_selected(defending_card):
@@ -590,3 +601,13 @@ func show_game_over_here_and_for_client(player_id, player_won: bool):
 	
 	get_tree().set_meta("player_won", won)
 	get_tree().change_scene_to_file("res://scenes/game_over.tscn")
+
+func play_sound(sound_path: String, count: int, delay: int):
+	for i in range(count):
+		var audio = AudioStreamPlayer.new()
+		audio.stream = load(sound_path)
+		audio.pitch_scale = randf_range(0.9, 1.1)
+		get_tree().root.add_child(audio)
+		audio.play()
+		await get_tree().create_timer(randf_range(0.1 * delay, 0.3 * delay)).timeout
+		audio.connect("finished", audio.queue_free)

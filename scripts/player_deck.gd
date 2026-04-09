@@ -53,6 +53,12 @@ func draw_card(card_drawn_name):
 	if chosen_deck.size() == 0:
 		reset_deck()
 	
+	var audio = AudioStreamPlayer.new()
+	audio.stream = preload("res://sounds/card.mp3")
+	add_child(audio)
+	audio.play()
+	audio.connect("finished", audio.queue_free)
+	
 	var card_scene = CARD_SCENE_PATH
 	var new_card = card_scene.instantiate()
 	

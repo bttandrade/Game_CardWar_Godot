@@ -47,4 +47,8 @@ offset_right = 797.0
 offset_bottom = 455.0
 text = "VOLTAR"
 
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1496232400]
+volume_db = -5.0
+pitch_scale = 0.9
+
 [connection signal="pressed" from="LobbyBtn" to="." method="_on_lobby_btn_pressed"]

@@ -3,6 +3,11 @@ extends Node2D
 const STARTING_HEALTH = 10
 const STARTING_ENERGY = 3
 
+func _ready() -> void:
+	var audio = get_parent().get_node("AudioStreamPlayer")
+	audio.stream = load("res://sounds/gameplay.wav")
+	audio.play()
+
 func host_set_up():
 	$PlayerCrystal/PlayerHealth.text = str(STARTING_HEALTH)
 	get_parent().get_node("EnemyField/EnemyCrystal/EnemyHealth").text = str(STARTING_HEALTH)

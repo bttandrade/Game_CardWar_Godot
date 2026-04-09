@@ -11,6 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://bbgeacfim7gnr" path="res://assets/card_pirate_back.png" id="6_t6p2p"]
 [ext_resource type="Texture2D" uid="uid://b03ssnhpooinj" path="res://assets/card_green_back.png" id="7_bltbo"]
 [ext_resource type="Script" uid="uid://vok0c6r8jhjl" path="res://scripts/green_deck_sprite.gd" id="8_qnjl1"]
+[ext_resource type="AudioStream" uid="uid://c6y7tcxm78hng" path="res://sounds/deck_selection.wav" id="12_11gpc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xc7bc"]
 size = Vector2(104, 132)
@@ -124,3 +125,11 @@ offset_top = 520.0
 offset_right = 416.0
 offset_bottom = 565.0
 theme_override_font_sizes/font_size = 32
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1448066892]
+stream = ExtResource("12_11gpc")
+volume_db = -10.0
+pitch_scale = 0.9
+autoplay = true
+
+[connection signal="finished" from="AudioStreamPlayer" to="." method="_on_audio_stream_player_finished"]

@@ -5,7 +5,6 @@
 [ext_resource type="PackedScene" uid="uid://cdu2squy3xgxu" path="res://scenes/enemy_field.tscn" id="3_sugp2"]
 [ext_resource type="Texture2D" uid="uid://di5w2y36nv3e6" path="res://assets/background.png" id="4_tbgi4"]
 [ext_resource type="Script" uid="uid://dsdfwconnmkxc" path="res://scripts/announcement.gd" id="5_tbgi4"]
-[ext_resource type="AudioStream" uid="uid://dmye7tm6f3ld7" path="res://sounds/menu.wav" id="6_tefeu"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_jyhfs"]
 
@@ -59,12 +58,5 @@ horizontal_alignment = 1
 autowrap_mode = 2
 script = ExtResource("5_tbgi4")
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=697351037]
-stream = ExtResource("6_tefeu")
-volume_db = -10.0
-pitch_scale = 0.9
-autoplay = true
-
 [connection signal="pressed" from="HostBtn" to="." method="_on_host_btn_pressed"]
 [connection signal="pressed" from="JoinBtn" to="." method="_on_join_btn_pressed"]
-[connection signal="finished" from="AudioStreamPlayer" to="." method="_on_audio_stream_player_finished"]

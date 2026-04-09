@@ -116,6 +116,7 @@ func play_card_here_and_for_client(player_id, card_name, card_slot_name):
 			else:
 				label.visible = false
 	
+	play_card_sound(card)
 	card.rotation_degrees = 0
 	card.scale = Vector2(DEFAULT_CARD_IN_SLOT_SCALE, DEFAULT_CARD_IN_SLOT_SCALE)
 	card.z_index = -1
@@ -196,3 +197,48 @@ func highlight_card(card, hovered):
 func on_left_clicked_released():
 	if card_being_dragged:
 		finish_drag()
+
+func play_sound(sound_path: String, count: int, delay: int):
+	for i in range(count):
+		var audio = AudioStreamPlayer.new()
+		audio.stream = load(sound_path)
+		audio.pitch_scale = randf_range(0.9, 1.1)
+		get_tree().root.add_child(audio)
+		audio.play()
+		await get_tree().create_timer(randf_range(0.1 * delay, 0.3 * delay)).timeout
+		if sound_path == "res://sounds/ready.wav":
+			play_sound("res://sounds/loose.wav", 1, 1)
+		audio.connect("finished", audio.queue_free)
+
+func play_card_sound(card):
+	var card_texture = card.get_node("Sprite2D").texture.resource_path
+	var sound_path = ""
+	var count = 1
+	var delay = 1
+	if card.card_type == "unit":
+		if "knight" in card_texture:
+			sound_path = "res://sounds/formation.wav"
+		else:
+			sound_path = "res://sounds/card_place.mp3"
+	else:
+		if "arrows" in card_texture:
+			sound_path = "res://sounds/arrows.mp3"
+			count = 4
+		elif "ballista" in card_texture:
+			sound_path = "res://sounds/ready.wav"
+			delay = 3
+		elif "cannonball" in card_texture:
+			sound_path = "res://sounds/cannon.mp3"
+			count = 2
+			delay = 3
+		elif "decay" in card_texture:
+			sound_path = "res://sounds/decay.mp3"
+		elif "warcry" in card_texture:
+			sound_path = "res://sounds/warcry.mp3"
+		elif "devastation" in card_texture:
+			sound_path = "res://sounds/devastation.mp3"
+		else:
+			sound_path = "res://sounds/card_place.mp3"
+			
+	if sound_path:
+		play_sound(sound_path, count, delay)

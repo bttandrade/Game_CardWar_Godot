@@ -79,3 +79,7 @@ func check_both_chose():
 		get_tree().set_meta("chosen_deck", chosen_deck)
 		get_tree().set_meta("enemy_deck", enemy_deck)
 		get_tree().change_scene_to_file("res://scenes/main.tscn")
+
+
+func _on_audio_stream_player_finished() -> void:
+	$AudioStreamPlayer.play()

@@ -51,3 +51,7 @@ func _on_join_btn_pressed() -> void:
 	multiplayer.multiplayer_peer = peer
 	get_tree().set_meta("is_host", false)
 	get_tree().change_scene_to_file("res://scenes/deck_selection.tscn")
+
+
+func _on_audio_stream_player_finished() -> void:
+	$AudioStreamPlayer.play()

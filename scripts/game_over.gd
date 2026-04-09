@@ -1,13 +1,19 @@
 extends Control
 
+@onready var audio: AudioStreamPlayer = $AudioStreamPlayer
+
 func _ready() -> void:
 	var won = get_tree().get_meta("player_won")
 	setup(won)
 
 func setup(won: bool):
 	if won:
+		audio.stream = load("res://sounds/victory.mp3")
+		audio.play()
 		$MessageLabel.text = "Vitória!"
 	else:
+		audio.stream = load("res://sounds/defeat.mp3")
+		audio.play()
 		$MessageLabel.text = "Derrota!"
 
 func _on_lobby_btn_pressed() -> void:
