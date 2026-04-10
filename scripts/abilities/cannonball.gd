@@ -1,7 +1,7 @@
 extends Node
 
 const ABILITY_TRIGGER_EVENT = "card_placed"
-const SHOTS = 3
+const SHOTS = 2
 const DAMAGE = 2
 
 func trigger_ability(battle_manager_reference, input_manager_reference, this_card, trigger_event):

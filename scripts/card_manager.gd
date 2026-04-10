@@ -42,6 +42,8 @@ func card_clicked(card):
 		start_drag(card)
 
 func select_card_for_battle(card):
+	if $"../BattleManager".can_attack == false:
+		return
 	if selected_monster == card:
 		card.position.y += 6
 		selected_monster = null
@@ -206,8 +208,6 @@ func play_sound(sound_path: String, count: int, delay: int):
 		get_tree().root.add_child(audio)
 		audio.play()
 		await get_tree().create_timer(randf_range(0.1 * delay, 0.3 * delay)).timeout
-		if sound_path == "res://sounds/ready.wav":
-			play_sound("res://sounds/loose.wav", 1, 1)
 		audio.connect("finished", audio.queue_free)
 
 func play_card_sound(card):
@@ -221,15 +221,8 @@ func play_card_sound(card):
 		else:
 			sound_path = "res://sounds/card_place.mp3"
 	else:
-		if "arrows" in card_texture:
-			sound_path = "res://sounds/arrows.mp3"
-			count = 4
-		elif "ballista" in card_texture:
+		if "ballista" in card_texture:
 			sound_path = "res://sounds/ready.wav"
-			delay = 3
-		elif "cannonball" in card_texture:
-			sound_path = "res://sounds/cannon.mp3"
-			count = 2
 			delay = 3
 		elif "decay" in card_texture:
 			sound_path = "res://sounds/decay.mp3"

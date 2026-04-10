@@ -30,10 +30,9 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -124.5
-offset_top = -44.0
-offset_right = 124.5
-offset_bottom = 44.0
+offset_left = -120.0
+offset_top = -88.0
+offset_right = 129.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 64
@@ -41,14 +40,26 @@ text = "VITORIA"
 
 [node name="LobbyBtn" type="Button" parent="." unique_id=976800541]
 layout_mode = 1
-offset_left = 727.0
-offset_top = 424.0
-offset_right = 797.0
-offset_bottom = 455.0
-text = "VOLTAR"
+offset_left = 656.0
+offset_top = 400.0
+offset_right = 777.0
+offset_bottom = 442.0
+theme_override_font_sizes/font_size = 12
+text = "iR AO MENU"
+
+[node name="RematchBtn" type="Button" parent="." unique_id=803622074]
+layout_mode = 0
+offset_left = 504.0
+offset_top = 400.0
+offset_right = 625.0
+offset_bottom = 442.0
+theme_override_font_sizes/font_size = 12
+text = "JOGAR 
+NOVAMENTE"
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1496232400]
 volume_db = -5.0
 pitch_scale = 0.9
 
 [connection signal="pressed" from="LobbyBtn" to="." method="_on_lobby_btn_pressed"]
+[connection signal="pressed" from="RematchBtn" to="." method="_on_rematch_btn_pressed"]

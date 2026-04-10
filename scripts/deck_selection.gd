@@ -8,19 +8,32 @@ var i_chose = false
 func _ready() -> void:
 	multiplayer.peer_disconnected.connect(_on_peer_disconnected)
 	if get_tree().get_meta("is_host"):
-		$WaitingLabel.text = "Aguardando oponente conectar..."
-		$WaitingLabel.visible = true
-		$HeroDeckSprite.modulate = Color(0.5, 0.5, 0.5, 1)
-		$VillainDeckSprite.modulate = Color(0.5, 0.5, 0.5, 1)
-		$PirateDeckSprite.modulate = Color(0.5, 0.5, 0.5, 1)
-		$GreenDeckSprite.modulate = Color(0.5, 0.5, 0.5, 1)
-		multiplayer.peer_connected.connect(_on_peer_connected)
+		if multiplayer.get_peers().size() > 0:
+			$WaitingLabel.visible = false
+			$HeroDeckSprite.modulate = Color(1, 1, 1, 1)
+			$VillainDeckSprite.modulate = Color(1, 1, 1, 1)
+			$PirateDeckSprite.modulate = Color(1, 1, 1, 1)
+			$GreenDeckSprite.modulate = Color(1, 1, 1, 1)
+		else:
+			$WaitingLabel.text = "Aguardando oponente conectar..."
+			$WaitingLabel.visible = true
+			$HeroDeckSprite.modulate = Color(0.5, 0.5, 0.5, 1)
+			$VillainDeckSprite.modulate = Color(0.5, 0.5, 0.5, 1)
+			$PirateDeckSprite.modulate = Color(0.5, 0.5, 0.5, 1)
+			$GreenDeckSprite.modulate = Color(0.5, 0.5, 0.5, 1)
+			multiplayer.peer_connected.connect(_on_peer_connected)
 	else:
-		$WaitingLabel.text = "Escolha seu deck..."
+		$WaitingLabel.visible = false
 
 func _on_peer_disconnected(_peer_id):
-	$WaitingLabel.text = "Oponente desconectou..."
-	await get_tree().create_timer(2.0).timeout
+	if get_tree().has_meta("chosen_deck"):
+		get_tree().remove_meta("chosen_deck")
+	if get_tree().has_meta("enemy_deck"):
+		get_tree().remove_meta("enemy_deck")
+	if get_tree().has_meta("is_host"):
+		get_tree().remove_meta("is_host")
+	multiplayer.multiplayer_peer.close()
+	multiplayer.multiplayer_peer = null
 	get_tree().change_scene_to_file("res://scenes/main.tscn")
 
 func _on_peer_connected(_peer_id):
@@ -83,3 +96,10 @@ func check_both_chose():
 
 func _on_audio_stream_player_finished() -> void:
 	$AudioStreamPlayer.play()
+
+func _on_back_btn_pressed() -> void:
+	multiplayer.multiplayer_peer.close()
+	multiplayer.multiplayer_peer = null
+	if get_tree().has_meta("is_host"):
+		get_tree().remove_meta("is_host")
+	get_tree().change_scene_to_file("res://scenes/main.tscn")

@@ -1,7 +1,7 @@
 extends Node2D
 
 const COIN_SCENE = preload("res://entities/coin.tscn")
-const MAX_COINS = 7
+const MAX_COINS = 9
 const AREA_WIDTH = 150
 const AREA_HEIGHT = 80
 const MAX_ATTEMPTS = 30
@@ -16,11 +16,12 @@ func on_turn_start(coins_to_add: int):
 	var actual_add = min(coins_to_add, space)
 	for i in range(actual_add):
 		spawn_coin()
+		await get_tree().create_timer(0.2).timeout
 
 func spawn_coin():
 	if current_coins >= MAX_COINS:
 		return
-	play_sound("res://sounds/coin.mp3")
+	play_sound("res://sounds/coin.wav")
 	var final_pos = find_free_position()
 	
 	var coin = COIN_SCENE.instantiate()
@@ -35,6 +36,7 @@ func spawn_coin():
 	
 	var tween = get_tree().create_tween()
 	tween.tween_property(coin, "position", final_pos, 0.4).set_trans(Tween.TRANS_QUART).set_ease(Tween.EASE_OUT)
+	await get_tree().create_timer(0.1).timeout
 
 func find_free_position() -> Vector2:
 	var final_positions = []
@@ -81,6 +83,7 @@ func set_coins(count: int):
 		var to_add = count - current_coins
 		for i in range(to_add):
 			spawn_coin()
+			await get_tree().create_timer(0.2).timeout
 	elif count < current_coins:
 		var to_remove = current_coins - count
 		var children = get_children().duplicate()

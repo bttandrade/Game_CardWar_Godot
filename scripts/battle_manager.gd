@@ -2,7 +2,7 @@ extends Node
 
 const SMALL_CARD_SCALE = 0.8
 const CARD_MOVE_SPEED = 0.2
-const DEFAULT_HEALTH = 10
+const DEFAULT_HEALTH = 30
 const BATTLE_POS_OFFSET = 10
 
 signal spell_target_selected(card)
@@ -13,25 +13,25 @@ var player_cards_on_field = []
 var player_health
 var enemy_health
 var player_cards_that_attacked_this_turn = []
+var to_attack = 0
 var can_attack = false
 
 func _ready() -> void:
 	multiplayer.peer_disconnected.connect(_on_peer_disconnected)
 
 func _on_peer_disconnected(_peer_id):
-	get_parent().get_parent().get_node("Announcement").show_message("Oponente desconectou!", 2.0)
-	await get_tree().create_timer(2.0).timeout
-	multiplayer.multiplayer_peer.close()
-	multiplayer.multiplayer_peer = null
-	if get_tree().has_meta("chosen_deck"):
-		get_tree().remove_meta("chosen_deck")
-	if get_tree().has_meta("enemy_deck"):
-		get_tree().remove_meta("enemy_deck")
-	if get_tree().has_meta("is_host"):
-		get_tree().remove_meta("is_host")
-	if get_tree().has_meta("player_won"):
-		get_tree().remove_meta("player_won")
-	get_tree().change_scene_to_file("res://scenes/main.tscn")
+	if not get_tree().has_meta("player_won"):
+		get_parent().get_parent().get_node("Announcement").show_message("Oponente desconectou!", 2.0)
+		await get_tree().create_timer(2.0).timeout
+		multiplayer.multiplayer_peer.close()
+		multiplayer.multiplayer_peer = null
+		if get_tree().has_meta("chosen_deck"):
+			get_tree().remove_meta("chosen_deck")
+		if get_tree().has_meta("enemy_deck"):
+			get_tree().remove_meta("enemy_deck")
+		if get_tree().has_meta("is_host"):
+			get_tree().remove_meta("is_host")
+		get_tree().change_scene_to_file("res://scenes/main.tscn")
 
 
 func direct_damage(damage):
@@ -47,7 +47,7 @@ func direct_damage_here_and_for_client(player_id, damage):
 	else:
 		player_health = max(0, player_health - damage)
 		$"../PlayerCrystal/PlayerHealth".text = str(player_health)
-	play_sound("res://sounds/crystal.mp3", 1, 1)
+	play_sound("res://sounds/punch.mp3", 1, 1)
 	check_game_over()
 
 func _on_end_turn_button_pressed() -> void:
@@ -64,11 +64,10 @@ func _on_end_turn_button_pressed() -> void:
 
 @rpc("any_peer")
 func change_turn():
-	can_attack = true
 	$"../InputManager".input_disabled = true
 	
 	var coin_area = $"../CoinArea"
-	coin_area.on_turn_start(1)
+	await coin_area.on_turn_start(2)
 	
 	var player_id = multiplayer.get_unique_id()
 	rpc("sync_enemy_coins", player_id, coin_area.current_coins)
@@ -79,6 +78,19 @@ func change_turn():
 	enable_end_turn_btn(true)
 	$"../InputManager".input_disabled = false
 
+@rpc("any_peer")
+func start_client_turn():
+	var extra_card = $"../PlayerDeck".chosen_deck[0]
+	var player_id = multiplayer.get_unique_id()
+	$"../PlayerDeck".draw_here_and_for_client(player_id, extra_card)
+	$"../PlayerDeck".rpc("draw_here_and_for_client", player_id, extra_card)
+	await timer(0.5)
+	
+	$"../EndTurnButton".visible = true
+	$"../EndTurnButton".disabled = false
+	$"../InputManager".input_disabled = false
+	get_parent().get_parent().get_node("Announcement").show_message("Sua vez!", 2.0)
+	
 @rpc("any_peer")
 func sync_enemy_coins(player_id, count):
 	if multiplayer.get_unique_id() != player_id:
@@ -228,24 +240,26 @@ func attack_player(attacking_card):
 @rpc("any_peer")
 func attack_player_here_and_for_client(player_id, attacking_card_name):
 	var attacking_card
-	var attack_pos_y
+	var crystal_pos
 	
 	if multiplayer.get_unique_id() == player_id:
 		attacking_card = $"../CardManager".get_node(attacking_card_name)
-		attack_pos_y = 0
+		crystal_pos = get_parent().get_parent().get_node("EnemyField/EnemyCrystal").global_position
 	else:
 		attacking_card = get_parent().get_parent().get_node("EnemyField/CardManager/" + attacking_card_name)
-		attack_pos_y = 700
+		crystal_pos = $"../PlayerCrystal".global_position
 	
-	var new_pos = Vector2(attacking_card.position.x, attack_pos_y)
+	var new_pos = crystal_pos
 	
 	attacking_card.z_index = 5
 
 	var tween = get_tree().create_tween()
 	tween.tween_property(attacking_card, "position", new_pos, CARD_MOVE_SPEED)
 	
-	await timer(0.1)
-	play_sound("res://sounds/crystal.mp3", 1, 1)
+	play_sound("res://sounds/punch.mp3", 1, 1)
+	await timer(0.15)
+	
+	
 	if multiplayer.get_unique_id() == player_id:
 		enemy_health = max(0, enemy_health - attacking_card.attack)
 		get_parent().get_parent().get_node("EnemyField/EnemyCrystal/EnemyHealth").text = str(enemy_health)
@@ -298,6 +312,7 @@ func arrows_here_and_for_client(player_id, card_names):
 		card_manager = $"../CardManager"
 	
 	for card_name in card_names:
+		play_sound("res://sounds/arrows.mp3", 1, 1)
 		var card = card_manager.get_node(card_name)
 		if card.health == null:
 			continue
@@ -336,7 +351,7 @@ func decay_here_and_for_client(player_id, card_names):
 		var card = card_manager.get_node(card_name)
 		if card.card_type != "unit":
 			continue
-		card.attack = max(0, card.attack - 1)
+		card.attack = max(0, card.attack - 2)
 		card.get_node("Sprite2D/Control/Attack").texture = load("res://assets/value_" + str(card.attack) + ".png")
 
 func hellfire(target_card):
@@ -362,37 +377,12 @@ func hellfire_here_and_for_client(player_id, target_card_name):
 	
 	var target = card_manager.get_node(target_card_name)
 	
-	var left_card = null
-	var right_card = null
-	var closest_left_dist = INF
-	var closest_right_dist = INF
-	
 	for card in cards_on_field:
 		if card == target:
 			continue
-		var diff = card.position.x - target.position.x
-		if diff < 0 and abs(diff) < closest_left_dist:
-			closest_left_dist = abs(diff)
-			left_card = card
-		elif diff > 0 and abs(diff) < closest_right_dist:
-			closest_right_dist = abs(diff)
-			right_card = card
 	
-	if closest_left_dist > 200:
-		left_card = null
-	if closest_right_dist > 200:
-		right_card = null
-	
-	target.health = max(0, target.health - 2)
+	target.health = max(0, target.health - 4)
 	target.get_node("Sprite2D/Control/Health").texture = load("res://assets/value_" + str(target.health) + ".png")
-	
-	if left_card:
-		left_card.health = max(0, left_card.health - 1)
-		left_card.get_node("Sprite2D/Control/Health").texture = load("res://assets/value_" + str(left_card.health) + ".png")
-	
-	if right_card:
-		right_card.health = max(0, right_card.health - 1)
-		right_card.get_node("Sprite2D/Control/Health").texture = load("res://assets/value_" + str(right_card.health) + ".png")
 	
 	await timer(1.0)
 	
@@ -401,18 +391,6 @@ func hellfire_here_and_for_client(player_id, target_card_name):
 			destroy_card(target, "enemy")
 		else:
 			destroy_card(target, "player")
-	
-	if left_card and left_card.health == 0:
-		if multiplayer.get_unique_id() == player_id:
-			destroy_card(left_card, "enemy")
-		else:
-			destroy_card(left_card, "player")
-	
-	if right_card and right_card.health == 0:
-		if multiplayer.get_unique_id() == player_id:
-			destroy_card(right_card, "enemy")
-		else:
-			destroy_card(right_card, "player")
 
 func cannonball(shots, damage):
 	var player_id = multiplayer.get_unique_id()
@@ -430,6 +408,7 @@ func cannonball_here_and_for_client(player_id, shots, damage):
 	
 	for i in range(shots):
 		var targets = []
+		play_sound("res://sounds/cannon.mp3", 1, 1)
 		for card in cards_on_field:
 			if card.health > 0:
 				targets.append({"type": "card", "ref": card})
@@ -462,7 +441,7 @@ func cannonball_here_and_for_client(player_id, shots, damage):
 
 func plunder():
 	var player_id = multiplayer.get_unique_id()
-	var amount = randi_range(1, 2)
+	var amount = 1
 	plunder_here_and_for_client(player_id, amount)
 	rpc("plunder_here_and_for_client", player_id, amount)
 
@@ -600,6 +579,10 @@ func show_game_over_here_and_for_client(player_id, player_won: bool):
 		won = !player_won
 	
 	get_tree().set_meta("player_won", won)
+	
+	if multiplayer.peer_disconnected.is_connected(_on_peer_disconnected):
+		multiplayer.peer_disconnected.disconnect(_on_peer_disconnected)
+	
 	get_tree().change_scene_to_file("res://scenes/game_over.tscn")
 
 func play_sound(sound_path: String, count: int, delay: int):

@@ -128,8 +128,17 @@ theme_override_font_sizes/font_size = 32
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1448066892]
 stream = ExtResource("12_11gpc")
-volume_db = -10.0
+volume_db = -15.0
 pitch_scale = 0.9
 autoplay = true
 
+[node name="BackBtn" type="Button" parent="." unique_id=2131315892]
+offset_left = 848.0
+offset_top = 640.0
+offset_right = 956.0
+offset_bottom = 682.0
+theme_override_font_sizes/font_size = 22
+text = "VOLTAR"
+
 [connection signal="finished" from="AudioStreamPlayer" to="." method="_on_audio_stream_player_finished"]
+[connection signal="pressed" from="BackBtn" to="." method="_on_back_btn_pressed"]

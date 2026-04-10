@@ -4,16 +4,94 @@
 [ext_resource type="PackedScene" uid="uid://cybif6cwvi8cu" path="res://scenes/player_field.tscn" id="2_0wfyh"]
 [ext_resource type="PackedScene" uid="uid://cdu2squy3xgxu" path="res://scenes/enemy_field.tscn" id="3_sugp2"]
 [ext_resource type="Texture2D" uid="uid://di5w2y36nv3e6" path="res://assets/background.png" id="4_tbgi4"]
+[ext_resource type="Texture2D" uid="uid://bacmyn6wj7nnv" path="res://assets/logo.png" id="5_o6xl0"]
 [ext_resource type="Script" uid="uid://dsdfwconnmkxc" path="res://scripts/announcement.gd" id="5_tbgi4"]
 [ext_resource type="AudioStream" uid="uid://dmye7tm6f3ld7" path="res://sounds/menu.wav" id="6_tefeu"]
 
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_jyhfs"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tefeu"]
 
 [node name="Main" type="Node2D" unique_id=1249699090]
 script = ExtResource("1_o5qli")
 player_field_scene = ExtResource("2_0wfyh")
 enemy_field_scene = ExtResource("3_sugp2")
 metadata/_edit_vertical_guides_ = [160.0, 640.0]
+
+[node name="Credits" type="CanvasLayer" parent="." unique_id=1615124278]
+visible = false
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Credits" unique_id=1866476764]
+offset_left = 320.0
+offset_top = 48.0
+offset_right = 960.0
+offset_bottom = 624.0
+
+[node name="Label" type="Label" parent="Credits/ScrollContainer" unique_id=299103470]
+custom_minimum_size = Vector2(200, 400)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Desenvolvido por BRENO ANDRADE
+
+
+AGRADECIMENTOS
+https://www.youtube.com/@BarrysDevHell
+
+
+CRÉDITOS
+
+ARTE DAS CARTAS
+https://ivalpe.itch.io/
+
+*Demais artes foram feitas com IA
+
+SONS
+- Until Midnight [Looping Tune] by ExpiredSoda -- https://freesound.org/s/838167/ -- License: Attribution 4.0
+- Adventure theme by BloodPixelHero -- https://freesound.org/s/611463/ -- License: Attribution 4.0
+- Prepare for Battle by BloodPixelHero -- https://freesound.org/s/724507/ -- License: Attribution 4.0
+- Coins15.wav by doudar41 -- https://freesound.org/s/573367/ -- License: Creative Commons 0
+- riot shields testudo by Diasyl -- https://freesound.org/s/792354/ -- License: Creative Commons 0
+- Bow and arrow by jzdnvdoosj -- https://freesound.org/s/626262/ -- License: Attribution 3.0
+- Arrow_loose03.wav by SonoFxAudio -- https://freesound.org/s/649333/ -- License: Attribution 4.0
+- https://pixabay.com/sound-effects/sword-swing-sfx-407574/
+- https://pixabay.com/sound-effects/film-special-effects-11l-victory-sound-with-t-1749487415737-357605/
+- https://pixabay.com/sound-effects/film-special-effects-fail-trumpet-02-383962/
+- https://pixabay.com/sound-effects/film-special-effects-arrow-body-impact-146419/
+- https://pixabay.com/sound-effects/film-special-effects-fireball-impact-351961/
+- https://pixabay.com/sound-effects/film-special-effects-dark-magic-4-378653/
+- https://pixabay.com/sound-effects/film-special-effects-dark-magic-1-378650/
+- https://pixabay.com/sound-effects/film-special-effects-powerful-cannon-shot-352459/
+- https://pixabay.com/sound-effects/film-special-effects-taiko-drum-367656/
+- https://pixabay.com/sound-effects/film-special-effects-violent-sword-slice-393848/
+- https://pixabay.com/sound-effects/film-special-effects-punch-6-166699/
+
+"
+autowrap_mode = 3
+
+[node name="Rules" type="CanvasLayer" parent="." unique_id=906246392]
+visible = false
+
+[node name="Label" type="Label" parent="Rules" unique_id=1400513548]
+offset_left = 320.0
+offset_top = 48.0
+offset_right = 960.0
+offset_bottom = 643.0
+text = "COMO JOGAR:
+1 - Convide um amigo a baixar o jogo também
+2 - Ambos precisam estar na mesma conexão seja local, via Radmin ou afins
+3 - Jogador 1 clica em host e envia seu endereço IP ao outro
+4 - Jogador 2 digita o IP do Jogador 1 e clica em Join
+5 - Bom jogo!
+
+REGRAS:
+1 - Cada deck possui um total de 8 cartas únicas, entre elas 5 cartas unit comum, 2 cartas magic e 1 carta unit héroi que possui alguma habilidade extra.
+2 - Cada player possui 20 pontos de vida e vence quem zerar os pontos de vida do oponente.
+3 - Cada jogador inicia com 3 moedas e ganham mais 2 a cada turno até um total de 9 moedas no máximo.
+4 - Cada carta tem um custo em moedas para serem usadas que variam entre 1 a 5 moedas.
+5 - Cada jogador pode segurar no máximo 7 cartas e não receberão uma nova até lançar alguma em campo,
+6 - Em seu campo, cartas unit devem ser lançadas na fileira de cima, enquanto cartas magic na fileira de baixo
+7 - Ataques com cartas unit em campo são permitidos apenas a partir do segundo turno para ambos jogadores
+8 - Quem tem o primerio turno é escolhido de forma aleatória"
+autowrap_mode = 3
 
 [node name="TextureRect" type="TextureRect" parent="." unique_id=1680393905]
 z_index = -5
@@ -23,26 +101,25 @@ texture = ExtResource("4_tbgi4")
 expand_mode = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=492122981]
-visible = false
 z_index = -5
-position = Vector2(640.00006, 359.99997)
+position = Vector2(640, 208)
 scale = Vector2(0.93023264, 0.9375)
-texture = SubResource("CompressedTexture2D_jyhfs")
+texture = ExtResource("5_o6xl0")
 
 [node name="HostBtn" type="Button" parent="." unique_id=1277872512]
-offset_left = 336.0
-offset_top = 264.0
-offset_right = 568.0
-offset_bottom = 376.0
+offset_left = 344.0
+offset_top = 360.0
+offset_right = 576.0
+offset_bottom = 472.0
 theme_override_font_sizes/font_size = 48
 text = "HOST
 "
 
 [node name="JoinBtn" type="Button" parent="." unique_id=819340234]
-offset_left = 712.0
-offset_top = 264.0
-offset_right = 944.0
-offset_bottom = 376.0
+offset_left = 704.0
+offset_top = 360.0
+offset_right = 936.0
+offset_bottom = 472.0
 theme_override_font_sizes/font_size = 48
 text = "JOIN"
 
@@ -50,9 +127,9 @@ text = "JOIN"
 visible = false
 z_index = 5
 offset_left = 376.0
-offset_top = 320.0
+offset_top = 336.0
 offset_right = 904.0
-offset_bottom = 457.0
+offset_bottom = 473.0
 theme_override_font_sizes/font_size = 48
 text = "Mão cheia! Jogue uma carta primeiro."
 horizontal_alignment = 1
@@ -61,10 +138,66 @@ script = ExtResource("5_tbgi4")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=697351037]
 stream = ExtResource("6_tefeu")
-volume_db = -10.0
+volume_db = -15.0
 pitch_scale = 0.9
 autoplay = true
+
+[node name="IPInput" type="LineEdit" parent="." unique_id=486286193]
+offset_left = 704.0
+offset_top = 480.0
+offset_right = 936.0
+offset_bottom = 519.0
+theme_override_styles/focus = SubResource("StyleBoxEmpty_tefeu")
+placeholder_text = "Digite o IP para conectar"
+alignment = 1
+
+[node name="IPError" type="Label" parent="." unique_id=1829745008]
+visible = false
+z_index = 2
+offset_left = 320.0
+offset_top = 336.0
+offset_right = 960.0
+offset_bottom = 381.0
+theme_override_font_sizes/font_size = 32
+text = "Digite um IP válido"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RulesBtn" type="Button" parent="." unique_id=171452008]
+offset_left = 392.0
+offset_top = 488.0
+offset_right = 522.0
+offset_bottom = 536.0
+text = "REGRAS"
+
+[node name="QuitBtn" type="Button" parent="." unique_id=1134733629]
+offset_left = 392.0
+offset_top = 544.0
+offset_right = 522.0
+offset_bottom = 592.0
+text = "FECHAR"
+
+[node name="CreditsBtn" type="Button" parent="." unique_id=170293688]
+offset_left = 872.0
+offset_top = 640.0
+offset_right = 960.0
+offset_bottom = 680.0
+theme_override_font_sizes/font_size = 14
+text = "CRÉDITOS"
+
+[node name="ReturnBtn" type="Button" parent="." unique_id=572059485]
+visible = false
+offset_left = 872.0
+offset_top = 640.0
+offset_right = 960.0
+offset_bottom = 680.0
+theme_override_font_sizes/font_size = 14
+text = "VOLTAR"
 
 [connection signal="pressed" from="HostBtn" to="." method="_on_host_btn_pressed"]
 [connection signal="pressed" from="JoinBtn" to="." method="_on_join_btn_pressed"]
 [connection signal="finished" from="AudioStreamPlayer" to="." method="_on_audio_stream_player_finished"]
+[connection signal="pressed" from="RulesBtn" to="." method="_on_rules_btn_pressed"]
+[connection signal="pressed" from="QuitBtn" to="." method="_on_quit_btn_pressed"]
+[connection signal="pressed" from="CreditsBtn" to="." method="_on_credits_btn_pressed"]
+[connection signal="pressed" from="ReturnBtn" to="." method="_on_return_btn_pressed"]
